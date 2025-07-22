@@ -15,9 +15,9 @@ from datetime import datetime, timedelta
 
 
 # Set up environment variables for Meta API
-os.environ['META_PHONE_NUMBER_ID'] = '531242683411454'
-os.environ['META_ACCESS_TOKEN'] = 'EAAJFxCsSeekBO5RXVrhk2ptckttv20rEMKcZAhOriMEYc4GRIZCkiJORNd6dAlPVvkU10XtynbtYso5IcY0QC7QkBoFKaAmwLZArsOZBVcaaKQ6jJwXir63bqnvZCj7I24phhlaehPI2ZAqfyYSwqZBAXeamZCogZCZARBRWANZCDxWJrRX3dU2q6od7cVGFRYS1RZBTV56XYwnuj8PDrvMuo9ZAIEIq7odffWgMtXfWTIq3Y'
-os.environ['OPENAI_API_KEY'] = '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' 
+os.environ['META_PHONE_NUMBER_ID'] = ''
+os.environ['META_ACCESS_TOKEN'] = ''
+os.environ['OPENAI_API_KEY'] = 'sk-proj---' 
 
 
 
