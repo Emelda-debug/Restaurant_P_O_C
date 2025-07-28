@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='img/apple-icon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}" />
+
+    <title>Access Forbidden - Star Restaurant Dashboard</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Nucleo Icons -->
+    <link href="{{ url_for('static', filename='css/nucleo-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/nucleo-svg.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfect-scrollbar.css') }}">
+
+    <!-- Main Styling -->
+    <link href="{{url_for('static', filename='css/argon-dashboard-tailwind.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/argon-dashboard-tailwind.min.css')}}" rel="stylesheet" />
+    
+    <style>
+      .forbidden-animation {
+        animation: shake 0.5s ease-in-out infinite alternate;
+      }
+      
+      @keyframes shake {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(10px); }
+      }
+      
+      .pulse-red {
+        animation: pulse-red 2s infinite;
+      }
+      
+      @keyframes pulse-red {
+        0%, 100% { background-color: #ef4444; }
+        50% { background-color: #dc2626; }
+      }
+      
+      .countdown {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #3b82f6;
+        animation: countdown-pulse 1s infinite;
+      }
+      
+      @keyframes countdown-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+    </style>
+  </head>
+
+  <body class="m-0 font-sans antialiased font-normal bg-gray-900 leading-default text-blue-300">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-900 via-gray-900 to-black">
+      <div class="max-w-md w-full mx-auto">
+        <div class="text-center">
+          <!-- Animated Lock Icon -->
+          <div class="forbidden-animation inline-block mb-8">
+            <div class="w-32 h-32 bg-red-500 rounded-full flex items-center justify-center mx-auto pulse-red">
+              <i class="fas fa-lock text-white text-6xl"></i>
+            </div>
+          </div>
+          
+          <!-- Main Error Message -->
+          <h1 class="text-6xl font-bold text-red-500 mb-4">403</h1>
+          <h2 class="text-3xl font-semibold text-blue-400 mb-4">Access Forbidden</h2>
+          <p class="text-blue-300 text-lg mb-8">
+            <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
+            You don't have permission to access this resource.
+          </p>
+          
+          <!-- Replace the Font Awesome icon section with this -->
+<div class="mb-8 flex justify-center">
+  <div class="animate-pulse">
+    <img src="{{ url_for('static', filename='img/forbiden.png') }}" alt="Forbidden" class="w-16 h-16 object-contain">
+  </div>
+</div>
+          <!-- User Role Info -->
+<div class="bg-gray-800 rounded-lg p-6 mb-8 border-l-4 border-red-500">
+  <div class="flex items-center justify-center">
+    <i class="fas fa-user-shield text-red-500 text-2xl mr-4"></i>
+    <div class="text-center">
+      <h3 class="text-blue-300 font-semibold">Current Role: <span class="text-blue-400">{{ user_role|title }}</span></h3>
+      <p class="text-blue-200 text-sm">You need <strong class="text-blue-300">Admin</strong> privileges to access this page.</p>
+    </div>
+  </div>
+</div>
+          <!-- Redirect Countdown -->
+          <div class="bg-gray-800 rounded-lg p-6 mb-8">
+            <p class="text-blue-300 mb-4">
+              <i class="fas fa-clock text-blue-500 mr-2"></i>
+              Redirecting to dashboard in:
+            </p>
+            <div class="countdown" id="countdown">5</div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="space-y-4">
+            <a href="{{ url_for('dash.dashboard') }}" class="block w-full px-6 py-3 rounded-lg font-semibold transition-all duration-200" style="background-color: #2563eb; color: white; text-decoration: none;" onmouseover="this.style.backgroundColor='#1d4ed8'" onmouseout="this.style.backgroundColor='#2563eb'">
+              <i class="fas fa-home mr-2"></i>Go to Dashboard
+            </a>
+            
+            <a href="{{ url_for('dash.profile') }}" class="block w-full px-6 py-3 bg-gray-700 text-blue-300 rounded-lg font-semibold hover:bg-gray-600 transition-all duration-200" style="text-decoration: none;">
+              <i class="fas fa-user mr-2"></i>View Profile
+            </a>
+            
+            <button onclick="goBack()" class="block w-full px-6 py-3 bg-gray-600 text-blue-300 rounded-lg font-semibold hover:bg-gray-500 transition-all duration-200">
+              <i class="fas fa-arrow-left mr-2"></i>Go Back
+            </button>
+          </div>
+          
+          <!-- Contact Admin -->
+          <div class="mt-8 p-4 bg-yellow-900 bg-opacity-50 rounded-lg border border-yellow-600">
+            <p class="text-blue-300 text-sm">
+              <i class="fas fa-info-circle mr-2"></i>
+              Need admin access? Contact your system administrator.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Background Elements -->
+    <div class="fixed inset-0 pointer-events-none">
+      <div class="absolute top-10 left-10 w-20 h-20 bg-red-500 rounded-full opacity-10 animate-ping"></div>
+      <div class="absolute top-32 right-20 w-16 h-16 bg-yellow-500 rounded-full opacity-10 animate-pulse"></div>
+      <div class="absolute bottom-20 left-20 w-24 h-24 bg-blue-500 rounded-full opacity-10 animate-bounce"></div>
+      <div class="absolute bottom-32 right-32 w-12 h-12 bg-green-500 rounded-full opacity-10 animate-spin"></div>
+    </div>
+
+    <script>
+      // Countdown timer
+      let countdown = 5;
+      const countdownElement = document.getElementById('countdown');
+      
+      const timer = setInterval(() => {
+        countdown--;
+        countdownElement.textContent = countdown;
+        
+        if (countdown <= 0) {
+          clearInterval(timer);
+          window.location.href = "{{ url_for('dash.dashboard') }}";
+        }
+      }, 1000);
+      
+      // Go back function
+      function goBack() {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = "{{ url_for('dash.dashboard') }}";
+        }
+      }
+      
+      // Add some interactive effects
+      document.addEventListener('mousemove', (e) => {
+        const cursor = document.querySelector('.cursor');
+        if (!cursor) {
+          const newCursor = document.createElement('div');
+          newCursor.className = 'cursor';
+          newCursor.style.cssText = `
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+          `;
+          document.body.appendChild(newCursor);
+        }
+        
+        const cursorElement = document.querySelector('.cursor');
+        cursorElement.style.left = e.clientX + 'px';
+        cursorElement.style.top = e.clientY + 'px';
+      });
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          window.location.href = "{{ url_for('dash.dashboard') }}";
+        }
+        if (e.key === 'Escape') {
+          goBack();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --box-bg: rgba(255, 255, 255, 0.1);
+            --box-hover: rgba(255, 255, 255, 0.15);
+            --button-bg: #1e1e1e;
+            --button-text: white;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .charts-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Light Mode */
+        .light-mode {
+            --bg-color: #ffffff;
+            --text-color: #121212;
+            --box-bg: rgba(0, 0, 0, 0.1);
+            --box-hover: rgba(0, 0, 0, 0.15);
+            --button-bg: #f0f0f0;
+            --button-text: black;
+        }
+
+        .toggle-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--button-bg);
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch::before {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: var(--text-color);
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            transform: translateX(4px);
+        }
+
+        .light-mode .toggle-switch::before {
+            transform: translateX(30px);
+        }
+
+
+
+        .chart-container {
+            flex: 1 1 45%;
+            max-width: 500px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .metric-box:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .metric-box h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .metric-box p {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        select {
+            background: #1e1e1e;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <div class="toggle-container">
+            <div class="toggle-switch" onclick="toggleTheme()"></div>
+        </div>
+
+        <!-- 📅 Time Filter Dropdown -->
+        <select id="timeFilter">
+            <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option>
+            <option value="daily">Daily</option>
+        </select>
+
+        <!-- 📈 Charts Section (Moved Above Metrics) -->
+        <div class="charts-wrapper">
+            <div class="chart-container">
+                <canvas id="ordersChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="ratingsChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="topItemsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 📊 Key Metrics Display -->
+        <div class="dashboard-metrics">
+            <div class="metric-box">
+                <h3>Total Orders</h3>
+                <p id="totalOrders">{{ total_orders }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Completed Orders</h3>
+                <p id="completedOrders">{{ completed_orders }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Pending Orders</h3>
+                <p id="pendingOrders">{{ pending_orders }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Reservations</h3>
+                <p id="totalReservations">{{ total_reservations }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Available Tables</h3>
+                <p id="availableTables">{{ available_tables }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Total Customers</h3>
+                <p id="totalContacts">{{ total_contacts }}</p>
+            </div>
+            <div class="metric-box">
+                <h3>Active Menu Items</h3>
+                <p id="totalMenuItems">{{ total_menu_items }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flask JSON Data -->
+    <script type="application/json" id="ratings-data">{{ ratings_data | tojson | safe }}</script>
+    <script type="application/json" id="menu-items-data">{{ top_menu_items | tojson | safe }}</script>
+
+    <script>
+        const ratingsData = JSON.parse(document.getElementById('ratings-data').textContent);
+        const topMenuItems = JSON.parse(document.getElementById('menu-items-data').textContent);
+
+        const ratingsLabels = ratingsData.length ? ratingsData.map(d => `${d[0]} Stars`) : [];
+        const ratingsValues = ratingsData.length ? ratingsData.map(d => d[1]) : [];
+
+        const menuLabels = topMenuItems.length ? topMenuItems.map(d => d[0]) : [];
+        const menuValues = topMenuItems.length ? topMenuItems.map(d => d[1]) : [];
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle("light-mode");
+            localStorage.setItem("theme", body.classList.contains("light-mode") ? "light" : "dark");
+        }
+        window.onload = function () {
+            if (localStorage.getItem("theme") === "light") {
+                document.body.classList.add("light-mode");
+            };
+        };
+
+        function createChart(ctx, type, labels, data, labelName, backgroundColors) {
+            return new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: labelName,
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true }
+                    },
+                    scales: type === "bar" ? { y: { beginAtZero: true } } : {}
+                }
+            });
+        }
+
+        createChart(document.getElementById('ordersChart').getContext('2d'), "line",
+            ["Jan", "Feb", "Mar", "Apr", "May"],
+            [50, 80, 120, 150, 200],
+            "Total Orders",
+            ["#36a2eb"]
+        );
+
+        createChart(document.getElementById('ratingsChart').getContext('2d'), "doughnut",
+            ratingsLabels,
+            ratingsValues,
+            "Ratings Breakdown",
+            ["#ffce56", "#36a2eb", "#ff6384", "#9966ff", "#4bc0c0"]
+        );
+
+        createChart(document.getElementById('topItemsChart').getContext('2d'), "bar",
+            menuLabels,
+            menuValues,
+            "Top Ordered Items",
+            ["#ff6384", "#36a2eb", "#ffce56", "#4bc0c0", "#9966ff"]
+        );
+    </script>    
+</body>
+</html>

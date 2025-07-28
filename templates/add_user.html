@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='img/apple-icon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}" />
+
+    <title>Star Restaurant Dashboard - Add User</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Nucleo Icons -->
+    <link href="{{ url_for('static', filename='css/nucleo-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/nucleo-svg.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfect-scrollbar.css') }}">
+
+    <!-- Popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- Main Styling -->
+    <link href="{{url_for('static', filename='css/argon-dashboard-tailwind.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/argon-dashboard-tailwind.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tooltips.css') }}">
+  </head>
+
+  <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
+    <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
+    <!-- sidenav  -->
+    <aside sidenav class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0" aria-expanded="false">
+      <div class="h-19">
+        <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-white text-slate-400 xl:hidden" sidenav-close></i>
+        <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700" href="{{ url_for('dash.dashboard') }}">
+          <img src="{{url_for('static', filename='img/logo-ct-dark.png') }}" class="inline h-full max-w-full transition-all duration-200 dark:hidden ease-nav-brand max-h-8" alt="main_logo" />
+          <img src="{{url_for('static', filename='img/logo-ct.png') }}" class="hidden h-full max-w-full transition-all duration-200 dark:inline ease-nav-brand max-h-8" alt="main_logo" />
+          <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Star Dashboard</span>
+        </a>
+      </div>
+
+      <hr class="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent" />
+
+      <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
+        <ul class="flex flex-col pl-0 mb-0">
+          <li class="mt-0.5 w-full">
+            <a class="py-2.7 dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold text-slate-700 transition-colors" href="{{ url_for('dash.dashboard') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Dashboard</span>
+            </a>
+          </li>
+
+          <!-- Other navigation items -->
+          <li class="mt-0.5 w-full">
+            <a class="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ url_for('dash.orders') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center text-center xl:p-2.5">
+                <i class="ni ni-basket text-blue-500 text-sm leading-normal relative top-0"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Orders</span>
+            </a>
+          </li>
+
+          <li class="mt-0.5 w-full">
+            <a class="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ url_for('dash.reservations') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center text-center xl:p-2.5">
+                <i class="ni ni-calendar-grid-58 text-orange-500 text-sm leading-normal relative top-0"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Reservations</span>
+            </a>
+          </li>
+
+          <li class="mt-0.5 w-full">
+            <a class="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ url_for('dash.conversations') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center text-center xl:p-2.5">
+                <i class="ni ni-single-02 text-green-500 text-sm leading-normal relative top-0"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Conversations</span>
+            </a>
+          </li>
+
+          <li class="mt-0.5 w-full">
+            <a class="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ url_for('dash.menus') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center text-center xl:p-2.5">
+                <i class="ni ni-book-bookmark text-teal-500 text-sm leading-normal relative top-0"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Menu</span>
+            </a>
+          </li>
+
+          <li class="mt-0.5 w-full">
+            <a class="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ url_for('dash.ratings') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center text-center xl:p-2.5">
+                <i class="ni ni-like-2 text-yellow-500 text-sm leading-normal relative top-0"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Ratings</span>
+            </a>
+          </li>
+
+          <li class="mt-0.5 w-full">
+            <a class="dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ url_for('dash.contacts') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center text-center xl:p-2.5">
+                <i class="ni ni-email-83 text-red-500 text-sm leading-normal relative top-0"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Contacts</span>
+            </a>
+          </li>
+
+          <li class="w-full mt-4">
+            <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase dark:text-white opacity-60">Account pages</h6>
+          </li>
+
+          <li class="mt-0.5 w-full">
+            <a class="py-2.7 dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold text-slate-700 transition-colors" href="{{ url_for('dash.profile') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-single-02"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Profile</span>
+            </a>
+          </li>
+
+          <li class="mt-0.5 w-full">
+            <a class="py-2.7 bg-blue-500/13 dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold text-slate-700 transition-colors" href="{{ url_for('dash.add_user') }}">
+              <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+                <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-single-add"></i>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Add User</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
+      <!-- Navbar -->
+      <nav class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all ease-in shadow-none duration-250 rounded-2xl lg:flex-nowrap lg:justify-start" navbar-main navbar-scroll="false">
+        <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
+          <nav>
+            <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+              <li class="text-sm leading-normal"></li>
+            </ol>
+            <h6 class="mb-0 font-bold text-white capitalize">Add New User</h6>
+          </nav>
+
+          <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
+            <div class="flex items-center md:ml-auto md:pr-4"></div>
+            <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
+              <li class="flex items-center">
+                <a href="{{ url_for('dash.profile') }}" class="block px-0 py-2 transition-all ease-nav-brand">
+                  <img src="{{ url_for('static', filename=user_profile_image if user_profile_image else 'img/kal-visuals-square.jpg') }}" alt="Profile" class="w-12 h-12 rounded-full object-cover border-2 border-white/20 hover:border-white/40 transition-all duration-200">
+                </a>
+              </li>
+              <li class="flex items-center pl-4 xl:hidden">
+                <a href="javascript:;" class="block p-0 text-sm text-white transition-all ease-nav-brand" sidenav-trigger>
+                  <div class="w-4.5 overflow-hidden">
+                    <i class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>
+                    <i class="ease mb-0.75 relative block h-0.5 rounded-sm bg-white transition-all"></i>
+                    <i class="ease relative block h-0.5 rounded-sm bg-white transition-all"></i>
+                  </div>
+                </a>
+              </li>
+              <li class="flex items-center px-4">
+                <a href="{{ url_for('dash.logout') }}" class="p-0 text-sm text-white transition-all ease-nav-brand">
+                  <i class="cursor-pointer fa fa-sign-out-alt"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="w-full px-6 py-6 mx-auto">
+        <!-- Add User Form -->
+        <form method="POST" class="bg-white dark:bg-slate-800 shadow rounded-lg p-6 mb-8 space-y-4">
+          <div class="text-center mb-6">
+            <div class="inline-block w-16 h-16 mb-4 text-center bg-blue-500 rounded-full">
+              <i class="fas fa-user-plus text-white text-2xl leading-16"></i>
+            </div>
+            <h6 class="text-lg font-semibold dark:text-white">Add New User</h6>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Create a new user account with default password</p>
+          </div>
+          
+          <div>
+            <label class="block mb-1 font-semibold dark:text-white">Username:</label>
+            <input type="text" name="username" class="w-full px-4 py-2 border border-slate-300 rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" required>
+          </div>
+          
+          <div>
+            <label class="block mb-1 font-semibold dark:text-white">Role:</label>
+            <select name="role" class="w-full px-4 py-2 border border-slate-300 rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          
+          <div class="bg-blue-50 dark:bg-slate-700 p-4 rounded-lg">
+            <p class="text-sm text-blue-800 dark:text-blue-200">
+              <i class="fas fa-info-circle mr-2"></i>
+              Default password will be set to <strong>"taguta"</strong>. User must change this on first login.
+            </p>
+          </div>
+          
+          <div class="text-center">
+            <button type="submit" name="add_user" class="px-6 py-2 rounded transition-all duration-200 font-semibold" style="background-color: #2563eb; color: white; border: none;" onmouseover="this.style.backgroundColor='#1d4ed8'" onmouseout="this.style.backgroundColor='#2563eb'">
+              <i class="fas fa-user-plus mr-2"></i>Create User
+            </button>
+          </div>
+        </form>
+
+        <!-- Success/Error Messages -->
+        {% if success_message %}
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          <i class="fas fa-check-circle mr-2"></i>{{ success_message }}
+        </div>
+        {% endif %}
+
+        {% if error_message %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <i class="fas fa-exclamation-circle mr-2"></i>{{ error_message }}
+        </div>
+        {% endif %}
+
+        <!-- Existing Users List -->
+        <div class="bg-white dark:bg-slate-800 shadow rounded-lg p-6">
+          <h6 class="text-lg font-semibold dark:text-white mb-4">Existing Users</h6>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-slate-500 dark:text-slate-400">
+              <thead class="text-xs text-slate-700 uppercase bg-slate-50 dark:bg-slate-700 dark:text-slate-400">
+                <tr>
+                  <th scope="col" class="px-6 py-3">Username</th>
+                  <th scope="col" class="px-6 py-3">Role</th>
+                  <th scope="col" class="px-6 py-3">Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in users %}
+                <tr class="bg-white border-b dark:bg-slate-800 dark:border-slate-700">
+                  <td class="px-6 py-4 font-medium text-slate-900 dark:text-white">{{ user.username }}</td>
+                  <td class="px-6 py-4">
+                    <span class="px-2 py-1 text-xs font-medium rounded-full {% if user.role == 'admin' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                      {{ user.role|title }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">{{ user.created_at.strftime('%Y-%m-%d') if user.created_at else 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <footer class="pt-4">
+          <div class="w-full px-6 mx-auto">
+            <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
+              <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
+                <div class="text-sm leading-normal text-center text-slate-500 lg:text-left">
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear() + "");
+                  </script>
+                  <a href="#" class="font-semibold text-slate-700 dark:text-white">Star Restaurant</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </main>
+
+    <!-- plugin for scrollbar  -->
+    <script src="{{ url_for('static', filename='js/plugins/perfect-scrollbar.min.js') }}"></script>
+    <!-- main script file  -->
+    <script src="{{ url_for('static', filename='js/argon-dashboard-tailwind.js') }}?v=1.0.1"></script>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Manage Menus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Optional for a modern look */
+        }
+    
+        .container {
+            max-width: 60%; /* Make container wider */
+            font-size: 1.25rem; /* Slightly larger font size for content */
+        }
+    
+        h2 {
+            font-size: 2.5rem; /* Larger heading size */
+            margin-bottom: 30px;
+        }
+    
+        .form-control {
+            padding: 15px; /* Increase input padding for bigger size */
+            font-size: 1.2rem; /* Increase font size for inputs */
+        }
+    
+        .btn-primary {
+            font-size: 1.2rem; /* Bigger button text */
+            padding: 10px 20px; /* Bigger button size */
+        }
+    
+        .table {
+            font-size: 1.25rem; /* Bigger table text */
+        }
+    
+        .table th, .table td {
+            padding: 15px; /* Increase padding inside table cells */
+        }
+
+        .btn-back {
+            position: fixed; /* Fixes the position relative to the viewport */
+            top: 20px; /* Adjust the distance from the top */
+            right: 20px; /* Aligns it to the right */
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* White text */
+            font-size: 1.2rem; /* Slightly reduced font size for readability */
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 12px 25px; /* Adjust padding for better proportions */
+            border-radius: 10px; /* Rounded corners */
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000; /* Ensures it stays on top of other content */
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #333333; /* Slightly lighter black on hover */
+            transform: scale(1.05); /* Adds interactivity */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Enhanced shadow on hover */
+        }
+        .btn-warning {
+    background-color: #ffc107;
+    color: #000;
+    font-weight: bold;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+
+
+    </style>
+    
+</head>
+<body>
+    <a href="/dashboard" class="btn-back">Back to Dashboard</a>
+    <div class="container mt-5">
+        <h2 class="text-center">Menus</h2>
+        <form method="POST" class="mb-4">
+            <div class="form-group">
+                <label>Category:</label>
+                <input type="text" name="category" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Item Name:</label>
+                <input type="text" name="item_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Price:</label>
+                <input type="number" name="price" step="0.01" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Available:</label>
+                <select name="available" class="form-control">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Add Menu Item</button>
+        </form>
+        <!-- 🔹 New Bulk Upload Form for Menu Items -->
+        <form method="POST" enctype="multipart/form-data" class="mb-4">
+            <div class="form-group">
+                <label>Upload Excel File:</label>
+                <input type="file" name="file" class="form-control" accept=".xlsx" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Upload Menu</button>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Item Name</th>
+                    <th>Price</th>
+                    <th>Available</th>
+                    <th>Highlight</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for menu in menus %}
+                <tr class="{% if menu[5] == 1 %}table-success{% endif %}"> <!-- Highlight row if the item is highlighted -->
+                    <td>{{ menu[0] }}</td>
+                    <td>{{ menu[1] }}</td>
+                    <td>{{ menu[2] }}</td>
+                    <td>${{ menu[3] }}</td>
+                    <td>{{ "Yes" if menu[4] == 1 else "No" }}</td>
+                    <td>
+                        {% if menu[5] == 1 %}
+                            <button class="btn btn-success">Highlighted</button>
+                        {% else %}
+                            <form action="{{ url_for('dash.set_highlight', menu_id=menu[0]) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-warning">Set as Highlight</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="{{ url_for('dash.delete_menu_item', menu_id=menu[0]) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+
+    </div>
+</body>
+</html>

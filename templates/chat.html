@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='img/apple-icon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}" />
+
+    <title>Star Restaurant Dashboard - Chat</title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Nucleo Icons -->
+    <link href="{{ url_for('static', filename='css/nucleo-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/nucleo-svg.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfect-scrollbar.css') }}">
+
+    <!-- Popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- Main Styling -->
+    <link href="{{url_for('static', filename='css/argon-dashboard-tailwind.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/argon-dashboard-tailwind.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tooltips.css') }}">
+    
+    <style>
+      .chat-container {
+        height: calc(100vh - 200px);
+        max-height: 600px;
+      }
+      
+      .chat-messages {
+        height: calc(100% - 80px);
+        overflow-y: auto;
+        scroll-behavior: smooth;
+      }
+      
+      .user-message {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 18px 18px 4px 18px;
+      }
+      
+      .bot-message {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border-radius: 18px 18px 18px 4px;
+      }
+      
+      .message-bubble {
+        max-width: 700px;
+        min-width: 120px;
+        width: fit-content;
+        word-wrap: break-word;
+        word-break: break-word;
+        animation: fadeIn 0.3s ease-in;
+      }
+      
+      .message-container {
+        max-width: 70%;
+        width: auto;
+      }
+      
+      .user-message-container {
+        margin-left: auto;
+        margin-right: 0;
+        justify-content: flex-end;
+      }
+      
+      .bot-message-container {
+        margin-left: 0;
+        margin-right: auto;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .timestamp {
+        font-size: 0.7rem;
+        opacity: 0.7;
+      }
+      
+      .sender-name {
+        font-size: 0.75rem;
+        font-weight: 600;
+        opacity: 0.9;
+        margin-bottom: 0.25rem;
+      }
+      
+      .chat-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      .back-button:hover {
+        transform: translateX(-2px);
+        transition: all 0.2s ease;
+      }
+      
+      .user-avatar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      .bot-avatar {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+    </style>
+  </head>
+
+ <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
+    <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
+    
+    <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out rounded-xl">
+      <!-- Chat Header -->
+      <div class="chat-header p-6 text-white rounded-t-2xl shadow-lg">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <button onclick="goBack()" class="back-button flex items-center space-x-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-all">
+              <i class="fas fa-arrow-left"></i>
+              <span>Back to Conversations</span>
+            </button>
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <i class="fas fa-user text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold">{{ customer_name }}</h3>
+                <p class="text-sm opacity-80">{{ phone_number }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="text-sm opacity-80">{{ messages|length }} messages</p>
+            <p class="text-xs opacity-60">
+              {% if messages %}
+                Last: {{ messages[-1].timestamp.strftime('%Y-%m-%d %H:%M') }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Messages Container -->
+      <div class="chat-container bg-white dark:bg-slate-850 shadow-xl rounded-b-2xl mx-6 mb-6">
+        <div class="chat-messages p-6 space-y-4" id="chatMessages">
+          {% if messages %}
+            {% for message in messages %}
+              <!-- User Message -->
+              <div class="flex justify-end mb-4">
+                <div class="flex items-start space-x-3 message-container user-message-container">
+                  <div class="text-right">
+                    <div class="message-bubble user-message text-white p-4 shadow-lg">
+                      <p class="sender-name text-right">{{ customer_name }}</p>
+                      <p class="mb-2">{{ message.message }}</p>
+                      <p class="timestamp text-right">{{ message.timestamp.strftime('%H:%M') }}</p>
+                    </div>
+                  </div>
+                  <div class="w-8 h-8 user-avatar rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <i class="fas fa-user text-white text-sm"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Bot Reply -->
+              {% if message.bot_reply %}
+              <div class="flex justify-start mb-4">
+                <div class="flex items-start space-x-3 message-container bot-message-container">
+                  <div class="w-8 h-8 bot-avatar rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <i class="fas fa-robot text-white text-sm"></i>
+                  </div>
+                  <div class="text-left">
+                    <div class="message-bubble bot-message text-white p-4 shadow-lg">
+                      <p class="sender-name">Taguta</p>
+                      <p class="mb-2">{{ message.bot_reply }}</p>
+                      <p class="timestamp">{{ message.timestamp.strftime('%H:%M') }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <div class="text-center py-12">
+              <i class="fas fa-comments text-6xl text-gray-300 mb-4"></i>
+              <p class="text-gray-500 text-lg">No messages in this conversation yet.</p>
+            </div>
+          {% endif %}
+        </div>
+        
+        <!-- Chat Stats Footer -->
+        <div class="border-t border-gray-200 dark:border-slate-600 p-4 bg-gray-50 dark:bg-slate-800 rounded-b-2xl">
+          <div class="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400">
+            <div class="flex space-x-6">
+              <span><i class="fas fa-message mr-1"></i> {{ messages|length }} messages</span>
+              <span><i class="fas fa-calendar mr-1"></i> 
+                {% if messages %}
+                  Started: {{ messages[0].timestamp.strftime('%Y-%m-%d') }}
+                {% endif %}
+              </span>
+            </div>
+            <div class="flex space-x-4">
+              <button onclick="exportChat()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-download mr-2"></i>Export
+              </button>
+              <button onclick="deleteChat()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-trash mr-2"></i>Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function goBack() {
+        window.location.href = '/conversations';
+      }
+      
+      function exportChat() {
+        // Implement chat export functionality
+        const phone = '{{ phone_number }}';
+        window.open(`/export-chat/${encodeURIComponent(phone)}`, '_blank');
+      }
+      
+      function deleteChat() {
+        const phone = '{{ phone_number }}';
+        const name = '{{ customer_name }}';
+        
+        if (confirm(`Are you sure you want to delete the conversation with ${name}?`)) {
+          fetch(`/delete-conversation/${encodeURIComponent(phone)}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Conversation deleted successfully');
+              window.location.href = '/conversations';
+            } else {
+              alert('Error deleting conversation');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error deleting conversation');
+          });
+        }
+      }
+      
+      // Auto-scroll to bottom of chat
+      document.addEventListener('DOMContentLoaded', function() {
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+    </script>
+
+    <!-- plugin for scrollbar  -->
+    <script src="{{ url_for('static', filename='js/plugins/perfect-scrollbar.min.js') }}"></script>
+    <!-- main script file  -->
+    <script src="{{ url_for('static', filename='js/argon-dashboard-tailwind.js') }}?v=1.0.1"></script>
+  </body>
+</html>
