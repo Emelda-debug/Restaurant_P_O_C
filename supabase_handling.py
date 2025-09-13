@@ -9,8 +9,8 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-SUPABASE_URL = "https://uzhgostqtfzcmcnebinp.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6aGdvc3RxdGZ6Y21jbmViaW5wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5NjI2MTAsImV4cCI6MjA2NzUzODYxMH0.vd08Pl0a3SkYifPFedlP2oCH9738M4ThuHpBmqhwtuU"
+SUPABASE_URL = "https://xjaixiemjrpmiqxyvjaf.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8"
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 

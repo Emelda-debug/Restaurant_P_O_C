@@ -2,6 +2,7 @@ import traceback
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, Blueprint
 from menu import send_food_image
 import psycopg2
+import supabase
 from flask_bcrypt import Bcrypt
 from supabase_handling import check_bucket_exists
 from whatsapp_utils import send_whatsapp_message, trigger_whatsapp_flow
@@ -12,7 +13,7 @@ import logging
 from dotenv import load_dotenv
 import requests
 from config import bcrypt
-
+from db import get_db_connection
 
 
 # Load environment variables from .env file
@@ -34,20 +35,6 @@ dash_blueprint = Blueprint('dash', __name__)
 
 
 
-def get_db_connection():
-    try:
-        conn = psycopg2.connect(
-            dbname="restaurant",
-            user="postgres",
-            password="postgres", 
-            host=os.getenv("DB_HOST", "db"),  
-            port="5432"
-        )
-        return conn
-    except psycopg2.OperationalError as e:
-        logging.error(f"Database connection error: {e}")
-        return None
-
 
 def notify_user(contact_number, message):
     """
@@ -66,39 +53,43 @@ def notify_user(contact_number, message):
 
 
 
+import logging
+import bcrypt
+
+
 def verify_password(username, password):
     logging.info(f"Debug: Verifying password for user: {username}")
 
-    conn = get_db_connection()
-    if not conn:
-        logging.debug("Debug: Database connection is None, returning False")
+    supabase = get_db_connection()
+    if not supabase:
+        logging.debug("Debug: Supabase client is None, returning False")
         return False
 
     try:
-        cursor = conn.cursor()
-        logging.info("Debug: Executing query to fetch password hash")
-        cursor.execute("SELECT password_hash FROM admin_users WHERE username = %s", (username,))
-        row = cursor.fetchone()
+        response = supabase.table("admin_users") \
+            .select("password_hash") \
+            .eq("username", username) \
+            .single() \
+            .execute()
 
-        if row:
-            logging.info("Debug: User found in database, verifying password")
-            if bcrypt.check_password_hash(row[0], password):
-                logging.info("Debug: Password verification successful")
-                return True
-            else:
-                logging.debug("Debug: Password verification failed")
+        # Only check the data attribute
+        user = response.data
+        if not user or "password_hash" not in user:
+            logging.debug("Debug: No user found or missing password hash")
+            return False
+
+        if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
+            logging.info("Debug: Password verification successful")
+            return True
         else:
-            logging.info("Debug: No user found with the given username")
+            logging.debug("Debug: Password verification failed")
+            return False
 
-    except psycopg2.Error as e:
-        logging.debug(f"Debug: Database error while verifying password: {e}")
-
-    finally:
-        cursor.close()
-        conn.close()
-        logging.debug("Debug: Database connection closed")
-    logging.debug("Debug: Returning False from verify_password")
-    return False
+    except Exception as e:
+        logging.debug(f"Debug: Exception while verifying password: {e}")
+        if 'response' in locals():
+            logging.debug(f"Debug: Response type: {type(response)}, attributes: {dir(response)}")
+        return False
 
 
 @dash_blueprint.route('/', methods=['GET', 'POST'])
@@ -129,105 +120,87 @@ def login():
 @dash_blueprint.route('/dashboard')
 def dashboard():
     """
-    Fetch key metrics for the restaurant dashboard.
+    Fetch key metrics for the restaurant dashboard using Supabase.
     """
     if 'user' not in session:
         return redirect(url_for('dash.login'))
-    # Get user's profile image
+
+    supabase = get_db_connection()
     user_profile_image = None
-    conn = get_db_connection()
-    if conn:
-        try:
-            cursor = conn.cursor()
-            cursor.execute("SELECT profile_image FROM admin_users WHERE username = %s", (session['user'],))
-            result = cursor.fetchone()
-            if result and result[0]:
-                user_profile_image = result[0]
-        except Exception as e:
-            logging.error(f"Error fetching profile image: {e}")
-        finally:
-            cursor.close()
-            conn.close()
-
-    conn = get_db_connection()
-    if not conn:
-        logging.error("❌ Database connection failed.")
-        return render_template("d.html", error="Database connection failed")
-
+    monthly_orders = []
+    total_orders = 0
+    completed_orders = 0
+    pending_orders = 0
+    total_reservations = 0
+    available_tables = 0
+    total_customers = 0
+    total_menu_items = 0
+    ratings_data = []
+    top_menu_items = []
     try:
-        cursor = conn.cursor()
+        # Get user's profile image
+        profile_resp = supabase.table("admin_users").select("profile_image").eq("username", session['user']).single().execute()
+        if getattr(profile_resp, "data", None) and profile_resp.data.get("profile_image"):
+            user_profile_image = profile_resp.data["profile_image"]
 
-        # Fetching all required data
-        cursor.execute("SELECT COUNT(*) FROM orders")
-        total_orders = cursor.fetchone()[0] if cursor.rowcount else 0
+        # Total orders
+        total_orders = supabase.table("orders").select("id", count="exact").execute().count or 0
+        # Completed orders
+        completed_orders = supabase.table("orders").select("id", count="exact").eq("status", "done").execute().count or 0
+        # Pending orders
+        pending_orders = supabase.table("orders").select("id", count="exact").not_.in_("status", ["done", "cancelled"]).execute().count or 0
+        # Total reservations
+        total_reservations = supabase.table("reservations").select("id", count="exact").execute().count or 0
+        # Available tables
+        available_tables = supabase.table("restaurant_tables").select("table_number", count="exact").eq("is_available", True).execute().count or 0
+        # Total customers
+        total_customers = supabase.table("customers").select("id", count="exact").execute().count or 0
+        # Total menu items
+        total_menu_items = supabase.table("menu").select("id", count="exact").eq("available", True).execute().count or 0
 
-        cursor.execute("SELECT COUNT(*) FROM orders WHERE status = 'done'")
-        completed_orders = cursor.fetchone()[0] if cursor.rowcount else 0
+        # Ratings data (group by rating)
+        ratings_resp = supabase.rpc("get_ratings_count_by_value").execute()  # You may need to create a Postgres function for this
+        ratings_data = ratings_resp.data if hasattr(ratings_resp, "data") else []
 
-        cursor.execute("SELECT COUNT(*) FROM orders WHERE status NOT IN ('done', 'cancelled')")
-        pending_orders = cursor.fetchone()[0] if cursor.rowcount else 0
+        # Monthly orders (group by month)
+        monthly_orders_resp = supabase.rpc("get_monthly_orders").execute()  # You may need to create a Postgres function for this
+        monthly_orders = monthly_orders_resp.data if hasattr(monthly_orders_resp, "data") and monthly_orders_resp.data is not None else []
 
-        cursor.execute("SELECT COUNT(*) FROM reservations")
-        total_reservations = cursor.fetchone()[0] if cursor.rowcount else 0
+        # Top menu items
+        top_menu_resp = supabase.rpc("get_top_menu_items").execute()  # You may need to create a Postgres function for this
+        top_menu_items = top_menu_resp.data if hasattr(top_menu_resp, "data") else []
 
-        cursor.execute("SELECT COUNT(*) FROM restaurant_tables WHERE is_available = TRUE")
-        available_tables = cursor.fetchone()[0] if cursor.rowcount else 0
-
-        cursor.execute("SELECT COUNT(*) FROM customers")
-        total_customers = cursor.fetchone()[0] if cursor.rowcount else 0
-
-        cursor.execute("SELECT COUNT(*) FROM menu WHERE available = TRUE")
-        total_menu_items = cursor.fetchone()[0] if cursor.rowcount else 0
-
-        cursor.execute("""
-            SELECT rating, COUNT(*) 
-            FROM orders 
-            WHERE rating IS NOT NULL
-            GROUP BY rating
-            ORDER BY rating DESC
-        """)
-        ratings_data = cursor.fetchall()
-        cursor.execute("""
-            SELECT TO_CHAR(created_at, 'Mon') AS month, COUNT(*) 
-            FROM orders 
-            GROUP BY month 
-            ORDER BY MIN(created_at)
-        """)
-        monthly_orders = cursor.fetchall()  
-
-
-        cursor.execute("""
-            SELECT order_details, COUNT(*) as order_count
-            FROM orders
-            WHERE order_details IS NOT NULL
-            GROUP BY order_details
-            ORDER BY order_count DESC
-            LIMIT 5;
-        """)
-        top_menu_items = cursor.fetchall()
-
-        cursor.close()
-        conn.close()
-
-        # Render the dashboard with data
-        return render_template("d.html", 
-            total_orders=total_orders, 
-            completed_orders=completed_orders, 
-            pending_orders=pending_orders, 
-            total_reservations=total_reservations, 
-            available_tables=available_tables, 
-            total_contacts=total_customers, 
-            total_menu_items=total_menu_items, 
-            ratings_data=ratings_data, 
+        return render_template("d.html",
+            total_orders=total_orders,
+            completed_orders=completed_orders,
+            pending_orders=pending_orders,
+            total_reservations=total_reservations,
+            available_tables=available_tables,
+            total_contacts=total_customers,
+            total_menu_items=total_menu_items,
+            ratings_data=ratings_data,
             top_menu_items=top_menu_items,
             monthly_orders=monthly_orders,
             user_profile_image=user_profile_image,
             username=session['user']
         )
-
-    except psycopg2.Error as e:
-        logging.error(f"❌ Database error: {e}")
-        return render_template("d.html", error="Error fetching dashboard data")
+    except Exception as e:
+        logging.error(f"❌ Supabase error: {e}")
+        return render_template("d.html",
+            error="Error fetching dashboard data",
+            total_orders=total_orders,
+            completed_orders=completed_orders,
+            pending_orders=pending_orders,
+            total_reservations=total_reservations,
+            available_tables=available_tables,
+            total_contacts=total_customers,
+            total_menu_items=total_menu_items,
+            ratings_data=ratings_data,
+            top_menu_items=top_menu_items,
+            monthly_orders=monthly_orders,
+            user_profile_image=user_profile_image,
+            username=session.get('user', None)
+        )
 
 
 

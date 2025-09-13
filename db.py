@@ -1,92 +1,20 @@
-import psycopg2
 import logging
 import os
 import json
+from supabase import create_client, Client
 
-def init_db():
-    """
-    Initializes the PostgreSQL database by creating the necessary tables
-    for conversation logging, reservations, and orders.
-    """
-    conn = get_db_connection()
-    if conn is None:
-        logging.error("Failed to establish database connection. Cannot initialize tables.")
-        return
 
-    try:
-        cursor = conn.cursor()
+SUPABASE_URL = "https://....supabase.co"
+SUPABASE_KEY = "..-"
 
-        # Create restaurant table
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS restaurant (
-                id SERIAL PRIMARY KEY,
-                from_number TEXT NOT NULL,
-                message TEXT,
-                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                bot_reply TEXT,
-                status TEXT,
-                reported INTEGER DEFAULT 0
-            )
-        ''')
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-        # Create reservations table
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS reservations (
-                id SERIAL PRIMARY KEY,
-                name TEXT NOT NULL,
-                contact_number TEXT NOT NULL,
-                reservation_time TIMESTAMP NOT NULL,
-                number_of_people INTEGER NOT NULL,
-                table_number INTEGER NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                reservations_done INTEGER DEFAULT 0,
-                rating INTEGER
-            )
-        ''')
 
-        # Create orders table
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS orders (
-                id SERIAL PRIMARY KEY,
-                contact_number TEXT NOT NULL,
-                order_details TEXT NOT NULL,
-                delivery TEXT DEFAULT 'No',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                delivery_name TEXT,
-                delivery_location TEXT, 
-                delivery_time TEXT,
-                status TEXT,
-                rating INTEGER
-            )
-        ''')
-
-        # Commit the changes
-        conn.commit()
-        logging.info("Database tables initialized successfully.")
-
-    except psycopg2.Error as e:
-        logging.error(f"Error while creating tables: {e}")
-        conn.rollback()
-    finally:
-        # Close the cursor and connection
-        cursor.close()
-        conn.close()
 
 
 def get_db_connection():
-    """Creates and returns a PostgreSQL database connection."""
-    try:
-        conn = psycopg2.connect(
-            dbname=os.getenv('DB_NAME'),
-            user=os.getenv('DB_USER'),
-            password=os.getenv('DB_PASSWORD'),
-            host=os.getenv('DB_HOST'),
-            port=os.getenv('DB_PORT')
-            )
-        return conn
-    except psycopg2.Error as e:
-        logging.error(f"Database connection error: {e}")
-        return None
+    """Returns the Supabase client instance."""
+    return supabase
 
 
 
@@ -96,38 +24,33 @@ def save_session_to_db(contact_number, session_summary):
     """
     Save or update session summary in PostgreSQL.
     """
-    conn = get_db_connection()
-    if not conn:
-        logging.error("❌ Database connection failed. Cannot save session summary.")
+    supabase = get_db_connection()
+    if not supabase:
+        logging.error("❌ Supabase client not available. Cannot save session summary.")
         return
 
+    # Extract only the summary text if session_summary is a dictionary
+    if isinstance(session_summary, dict) and "content" in session_summary:
+        session_summary = session_summary["content"]
+
+    # Ensure it’s a string before saving
+    if isinstance(session_summary, list) or isinstance(session_summary, dict):
+        session_summary = json.dumps(session_summary)
+
     try:
-        cursor = conn.cursor()
-
-        # ✅ Extract only the summary text if session_summary is a dictionary
-        if isinstance(session_summary, dict) and "content" in session_summary:
-            session_summary = session_summary["content"]
-
-        # ✅ Ensure it’s a string before saving
-        if isinstance(session_summary, list) or isinstance(session_summary, dict):
-            session_summary = json.dumps(session_summary)
-
-        cursor.execute('''
-            INSERT INTO user_memory (contact_number, memory_key, value, created_at)
-            VALUES (%s, %s, %s, CURRENT_TIMESTAMP)
-            ON CONFLICT (contact_number, memory_key) 
-            DO UPDATE SET value = EXCLUDED.value, created_at = CURRENT_TIMESTAMP
-        ''', (contact_number, 'session_summary', session_summary))
-
-        conn.commit()
-        logging.info(f"✅ Session summary saved for {contact_number}")
-
-    except psycopg2.Error as e:
-        logging.error(f"❌ Database error while saving session summary: {e}")
-
-    finally:
-        cursor.close()
-        conn.close()
+        # Upsert (insert or update) the session summary for the contact_number and memory_key
+        data = {
+            "contact_number": contact_number,
+            "memory_key": "session_summary",
+            "value": session_summary
+        }
+        response = supabase.table("user_memory").upsert(data, on_conflict=["contact_number", "memory_key"]).execute()
+        if response.get("status_code", 200) >= 400:
+            logging.error(f"❌ Supabase error while saving session summary: {response}")
+        else:
+            logging.info(f"✅ Session summary saved for {contact_number}")
+    except Exception as e:
+        logging.error(f"❌ Error while saving session summary to Supabase: {e}")
 
 
 
@@ -136,27 +59,27 @@ def log_conversation(from_number, message, bot_reply, status):
     """
     Log customer conversations in the database.
     """
-    conn = get_db_connection()  # Use PostgreSQL connection
-    if not conn:
-        logging.info("❌ Database connection failed. Cannot log conversation.")
+    supabase = get_db_connection()
+    if not supabase:
+        logging.info("❌ Supabase client not available. Cannot log conversation.")
         return
 
     try:
-        cursor = conn.cursor()
         logging.info(f"📝 Logging conversation: {from_number} - {message} - {bot_reply} - {status}")
-        cursor.execute('''
-            INSERT INTO restaurant (from_number, message, bot_reply, status, reported)
-            VALUES (%s, %s, %s, %s, 0)
-        ''', (from_number, message, bot_reply, status))
-        conn.commit()
-        logging.info("✅ Conversation logged successfully.")
-    
-    except psycopg2.Error as e:
-        logging.warning(f"Database error while logging conversation: {e}")
-    
-    finally:
-        cursor.close()
-        conn.close()  # Ensure connection is closed
+        data = {
+            "from_number": from_number,
+            "message": message,
+            "bot_reply": bot_reply,
+            "status": status,
+            "reported": 0
+        }
+        response = supabase.table("restaurant").insert(data).execute()
+        if response.get("status_code", 200) >= 400:
+            logging.warning(f"❌ Supabase error while logging conversation: {response}")
+        else:
+            logging.info("✅ Conversation logged successfully.")
+    except Exception as e:
+        logging.warning(f"Error while logging conversation to Supabase: {e}")
 
 
 

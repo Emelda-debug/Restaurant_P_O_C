@@ -10,7 +10,7 @@ from flask_session import Session
 from datetime import datetime, timedelta
 import psycopg2
 from dotenv import load_dotenv
-import spacy
+#import spacy
 import traceback
 from base64 import b64decode, b64encode
 from flask import Flask, request, jsonify, Response
@@ -53,7 +53,7 @@ os.environ['META_ACCESS_TOKEN']
 
 
 # Load the NLP model
-nlp = spacy.load("en_core_web_sm")
+#nlp = spacy.load("en_core_web_sm")
 
 
 
@@ -1250,4 +1250,4 @@ if __name__ == '__main__':
     scheduler_thread = threading.Thread(target=run_scheduler)
     scheduler_thread.daemon = True
     scheduler_thread.start()
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)

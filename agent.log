@@ -1,3 +1,579 @@
-2025-07-23 09:35:47,701 - INFO - Received verification: mode=subscribe, token=abc123
-2025-07-23 09:35:47,701 - INFO - Webhook verified successfully
-2025-07-23 09:35:47,702 - INFO - 127.0.0.1 - - [23/Jul/2025 09:35:47] "GET /webhook?hub.mode=subscribe&hub.challenge=81261425&hub.verify_token=abc123 HTTP/1.1" 200 -
+2025-09-12 16:21:37,004 - INFO -  * Detected change in '/Users/emeldamada/Documents/Restaurant_P_O_C/app.py', reloading
+2025-09-12 16:21:38,801 - INFO -  * Restarting with stat
+2025-09-12 16:21:47,823 - WARNING -  * Debugger is active!
+2025-09-12 16:21:47,859 - INFO -  * Debugger PIN: 620-532-995
+2025-09-12 16:22:37,191 - INFO -  * Detected change in '/Users/emeldamada/Documents/Restaurant_P_O_C/app.py', reloading
+2025-09-12 16:22:37,830 - INFO -  * Restarting with stat
+2025-09-12 16:22:45,152 - WARNING -  * Debugger is active!
+2025-09-12 16:22:45,175 - INFO -  * Debugger PIN: 620-532-995
+2025-09-12 16:23:18,824 - INFO -  * Detected change in '/Users/emeldamada/Documents/Restaurant_P_O_C/app.py', reloading
+2025-09-12 16:23:19,963 - INFO -  * Restarting with stat
+2025-09-12 16:23:30,774 - WARNING -  * Debugger is active!
+2025-09-12 16:23:30,821 - INFO -  * Debugger PIN: 620-532-995
+2025-09-12 16:23:31,028 - DEBUG - connect_tcp.started host='xjaixiemjrpmiqxyvjaf.supabase.co' port=443 local_address=None timeout=120 socket_options=None
+2025-09-12 16:23:31,068 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x120b678c0>
+2025-09-12 16:23:31,068 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x120b0aba0> server_hostname='xjaixiemjrpmiqxyvjaf.supabase.co' timeout=120
+2025-09-12 16:23:31,127 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x120b71d10>
+2025-09-12 16:23:31,127 - DEBUG - send_connection_init.started request=<Request [b'GET']>
+2025-09-12 16:23:31,129 - DEBUG - send_connection_init.complete
+2025-09-12 16:23:31,129 - DEBUG - send_request_headers.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:23:31,130 - DEBUG - Adding (b':method', b'GET') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,130 - DEBUG - Encoding 2 with 7 bits
+2025-09-12 16:23:31,130 - DEBUG - Adding (b':authority', b'xjaixiemjrpmiqxyvjaf.supabase.co') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,130 - DEBUG - Encoding 1 with 6 bits
+2025-09-12 16:23:31,130 - DEBUG - Encoding 24 with 7 bits
+2025-09-12 16:23:31,131 - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,131 - DEBUG - Encoding 7 with 7 bits
+2025-09-12 16:23:31,131 - DEBUG - Adding (b':path', b'/rest/v1/admin_users?select=profile_image&username=eq.em') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,131 - DEBUG - Encoding 4 with 6 bits
+2025-09-12 16:23:31,131 - DEBUG - Encoding 40 with 7 bits
+2025-09-12 16:23:31,131 - DEBUG - Adding (b'accept-encoding', b'gzip, deflate') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,131 - DEBUG - Encoding 16 with 7 bits
+2025-09-12 16:23:31,131 - DEBUG - Adding (b'user-agent', b'python-httpx/0.28.1') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,132 - DEBUG - Encoding 58 with 6 bits
+2025-09-12 16:23:31,132 - DEBUG - Encoding 14 with 7 bits
+2025-09-12 16:23:31,132 - DEBUG - Adding (b'x-client-info', b'supabase-py/2.13.0') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,132 - DEBUG - Encoding 10 with 7 bits
+2025-09-12 16:23:31,132 - DEBUG - Encoding 13 with 7 bits
+2025-09-12 16:23:31,132 - DEBUG - Adding (b'apikey', b'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,132 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:23:31,132 - DEBUG - Encoding 167 with 7 bits
+2025-09-12 16:23:31,133 - DEBUG - Adding (b'authorization', b'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:True, huffman:True
+2025-09-12 16:23:31,133 - DEBUG - Encoding 23 with 4 bits
+2025-09-12 16:23:31,133 - DEBUG - Encoding 172 with 7 bits
+2025-09-12 16:23:31,133 - DEBUG - Adding (b'accept-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,133 - DEBUG - Encoding 10 with 7 bits
+2025-09-12 16:23:31,134 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:23:31,134 - DEBUG - Adding (b'content-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,134 - DEBUG - Encoding 11 with 7 bits
+2025-09-12 16:23:31,134 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:23:31,134 - DEBUG - Adding (b'accept', b'application/vnd.pgrst.object+json') to the header table, sensitive:False, huffman:True
+2025-09-12 16:23:31,134 - DEBUG - Encoding 19 with 6 bits
+2025-09-12 16:23:31,134 - DEBUG - Encoding 24 with 7 bits
+2025-09-12 16:23:31,134 - DEBUG - Encoded header block to b"\x82A\x98\xf3\xd0f\xf2b\xd3\xd2\xca\xe97o>\xbb\xf4\x1c\xab\xa2\xda\xc7\x18\xd0U\xc8\x7f\x87D\xa8b\xc2\xa1,w\x0b\x03\x92\x93U\x15\xa8-\x88\xff\x10Z\nD\xc1]\x87\x94\xd4\x16#R9\x8b\xf1j\x0beC\xa4\xb0\x17\xb2\xe5\xa7\x90z\x8e\xaf\xd2g=KN\x94\xd7\xe5\x80.'\x97\x0f@\x8a\xf2\xb1(1jJ\xc6\xaaS\xff\x8dE\xb5\x8e1\xa0\xabW\xe9\x81.\x16W\x07@\x85\x1df\xea__\xff(/\xac\xb3\xc7\x88\x86\xd4l\xb98{\xc8\x1d&\xc8\x8c\x95ml\x97\xb29\x93\xad\x7f\x9coe}r\xfa\xcbY\x19\xd0mF\xcb\xeeO\xcb\xb3\xf3\xa7\x0f\xbf\xdd\xd9\x11\x92\xac\xb4~\x9b#\x99*\x9f\xb7>T4>\\R:\xb2\xf8\x8f\x95\x1eK\x8e\x81\x0e\x9c4\xe47\x83\x12\x97\xd1\xfb\xbb#\x99)\xc3lbh\xd9\xefe\xaf\x9f\xe6\xc3j\xe9\x81\x9d;\xc8->\xf2{\xd1\x7fb2S\xc5\xa2^\xc8\xe6\x8e\x90\xb3\xa3\xde@j\xbf\xa3\xc6\x9c`\\\xdaK\x83t\xc37\xac~s-\xa7\xf3\x86\x7f]z\xcd\xb6D\xbb\xd7\xf3\x04l\x9b\x16\xe6\xfaV?xJ\xfeG\xbf\x1f\x08\xff-\xbaQ\xd8[\x14/\xac\xb3\xc7\x88\x86\xd4l\xb98{\xc8\x1d&\xc8\x8c\x95ml\x97\xb29\x93\xad\x7f\x9coe}r\xfa\xcbY\x19\xd0mF\xcb\xeeO\xcb\xb3\xf3\xa7\x0f\xbf\xdd\xd9\x11\x92\xac\xb4~\x9b#\x99*\x9f\xb7>T4>\\R:\xb2\xf8\x8f\x95\x1eK\x8e\x81\x0e\x9c4\xe47\x83\x12\x97\xd1\xfb\xbb#\x99)\xc3lbh\xd9\xefe\xaf\x9f\xe6\xc3j\xe9\x81\x9d;\xc8->\xf2{\xd1\x7fb2S\xc5\xa2^\xc8\xe6\x8e\x90\xb3\xa3\xde@j\xbf\xa3\xc6\x9c`\\\xdaK\x83t\xc37\xac~s-\xa7\xf3\x86\x7f]z\xcd\xb6D\xbb\xd7\xf3\x04l\x9b\x16\xe6\xfaV?xJ\xfeG\xbf@\x8a\x19\x08Z\xd2\xb5v\x1eSP_\x85\xae\xd8\xe81?@\x8b!\xeaIjJ\xd5\xd8yMA\x7f\x85\xae\xd8\xe81?S\x98\x1du\xd0b\r&=Lw\xaaE\xeb\x9a\xc4%s\xc7\xd0\xa4O\xfb\xe8\x83\xd5"
+2025-09-12 16:23:31,136 - DEBUG - send_request_headers.complete
+2025-09-12 16:23:31,136 - DEBUG - send_request_body.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:23:31,136 - DEBUG - send_request_body.complete
+2025-09-12 16:23:31,136 - DEBUG - receive_response_headers.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:23:31,167 - DEBUG - receive_remote_settings.started
+2025-09-12 16:23:31,168 - DEBUG - receive_remote_settings.complete return_value=<RemoteSettingsChanged changed_settings:{ChangedSetting(setting=3, original_value=None, new_value=100), ChangedSetting(setting=4, original_value=65535, new_value=65536), ChangedSetting(setting=5, original_value=16384, new_value=16777215)}>
+2025-09-12 16:23:31,890 - DEBUG - Decoding b'?\xe1\x1f\x8ca\x96\xc3a\xbe\x94\x08\x94\xdcZ\xd4\x10\x04\xda\x81j\xe0\x99\xb8\xc8\x94\xc5\xa3\x7f_\x96\x1du\xd0b\r&=LtA\xea\xfbP\x93\x8e\xc4\x150Z\x99V{@\x85$\xabX?_\x8f}\xd2\x80 d\x12>\x19_nW\x96\xcb\xa6\xef@\x8a$\xab\x10d\x9c\xab!#M\xa8\x86\xbf\xcfL:2^Z\x83\x9b\xd9\xabx\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93{\x8b\x84\x84-i[\x05D<\x86\xaao@\x89\xae\xc3\xf9\xf4\xb2\x124\xda\x8f\x91\xd6t&m\xb87o\xfbP\xb6X{ hN\x81\x9f@\x8dDkL4\x97\xc0\xfd-\xdc\xb6 \xc7\xab\x011@\x8aDkWa\xfa\x14\x89Z\xc2\xcb\x90\xf3\xd0f\xf2b\xd3\xd2\xca\xe97o>\xbb\xf4\x1c\xbf@\x8aDkX^\xd6\x95\tX\xd2\x7f\x9b\x00_}\x92\xb5*\xcd\x8d\xf6\xd6t\x00}g\xe3i\xf5\xa3u\xc6\xdc\x91\xc7\x04\xdb\xad\xff@\x90\xf2\xb1\x0fRKRVO\xaa\xca\xb1\xebI\x8fR?\x85\xa8\xe8\xa8\xd2\xcb@\x8f\xf2\xb1j\xee\x7fK\r)-5\xa5b\x1e\xda\x93\x011@\x95\xf2\xb1j\xee\x7fK[Z\x13aGJ\xc8-\x9d\xccB\xac\x93R_\x03154w\xffU\x8a"K\x14t\xc1\t\xba\xf0}\x1e\xf5\xfeO\xc2z]/\x9c\xee\xa5\xdb\xd5\xdf\xbec\xcf\xe2\xd9\x8d/%\xc6\xce\xe7|\x02ppX.\xb6\xeb\x8f:\x00\x89`\xae\x05\xc2\xb8V\x1e\x0e8\xb2\xe5\xe1\x8f^\x8e\xbes\x05\x03\xe6\xd6\xfb\x0c\xef\x86\x8d\xe6g\xb0\xd9\x9eGd\xa6\xa0\xdf\xd4\xd0o5`6b\xf3P\x7f[>\xb7\xf0\xe5\xb0\xba\xcd\xdaJsF\x88\xf8lk\x95\xff:}\x94\x9d\xe5\x8b\x96]\xf7K\x8f\xae\x1b=\xdbL7\xf7\x84z)\xbb3Z[\x7f\x9f\xda\x95\x8d3\xc0\xc7\xda\x85\xf3Y\xac* \xc3a\xbe\x94\x08\x96\xdcZ\xd6\x13j\x05\xab\x8d\xb3q\x91)\x8bF\xff\xb5$=#5P.\x8bk\x1ccAW!\xfe\xd4\xc6\x94\xd7\xaa\xaa=}\xa9\xb8\xa4\xb6\xc2\xfd\xa9\xb8t\x97q\x92X4\x9e\xa2\xffv\x87%\x07\xb6Ih\x1d\x85@\x85\x1d\tY\x1d\xc9\x90\x9d\x98?\x9b\x8d4\xcf\xf3\xf6\xa5#\x81\xe7\x1a\x00?'
+2025-09-12 16:23:31,890 - DEBUG - Decoded 4096, consumed 3 bytes
+2025-09-12 16:23:31,891 - DEBUG - Resizing header table to 4096 from 4096
+2025-09-12 16:23:31,891 - DEBUG - Decoded 12, consumed 1 bytes
+2025-09-12 16:23:31,891 - DEBUG - Decoded (b':status', b'400'), consumed 1
+2025-09-12 16:23:31,891 - DEBUG - Decoded 33, consumed 1 bytes
+2025-09-12 16:23:31,891 - DEBUG - Decoded 22, consumed 1 bytes
+2025-09-12 16:23:31,891 - DEBUG - Decoded (b'date', b'Fri, 12 Sep 2025 14:23:32 GMT'), total consumed 24 bytes, indexed True
+2025-09-12 16:23:31,892 - DEBUG - Decoded 31, consumed 1 bytes
+2025-09-12 16:23:31,892 - DEBUG - Decoded 22, consumed 1 bytes
+2025-09-12 16:23:31,892 - DEBUG - Decoded (b'content-type', b'application/json; charset=utf-8'), total consumed 24 bytes, indexed True
+2025-09-12 16:23:31,892 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:23:31,892 - DEBUG - Decoded 15, consumed 1 bytes
+2025-09-12 16:23:31,892 - DEBUG - Decoded (b'cf-ray', b'97e01030d91f95f8-JNB'), total consumed 23 bytes, indexed True
+2025-09-12 16:23:31,892 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:23:31,892 - DEBUG - Decoded 6, consumed 1 bytes
+2025-09-12 16:23:31,892 - DEBUG - Decoded (b'cf-cache-status', b'DYNAMIC'), total consumed 19 bytes, indexed True
+2025-09-12 16:23:31,893 - DEBUG - Decoded 26, consumed 1 bytes
+2025-09-12 16:23:31,893 - DEBUG - Decoded 3, consumed 1 bytes
+2025-09-12 16:23:31,893 - DEBUG - Decoded (b'content-encoding', b'gzip'), total consumed 5 bytes, indexed True
+2025-09-12 16:23:31,894 - DEBUG - Decoded 56, consumed 1 bytes
+2025-09-12 16:23:31,894 - DEBUG - Decoded 32, consumed 1 bytes
+2025-09-12 16:23:31,898 - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 34 bytes, indexed True
+2025-09-12 16:23:31,898 - DEBUG - Decoded 59, consumed 1 bytes
+2025-09-12 16:23:31,898 - DEBUG - Decoded 11, consumed 1 bytes
+2025-09-12 16:23:31,899 - DEBUG - Decoded (b'vary', b'Accept-Encoding'), total consumed 13 bytes, indexed True
+2025-09-12 16:23:31,899 - DEBUG - Decoded 9, consumed 1 bytes
+2025-09-12 16:23:31,899 - DEBUG - Decoded 17, consumed 1 bytes
+2025-09-12 16:23:31,899 - DEBUG - Decoded (b'proxy-status', b'PostgREST; error=42703'), total consumed 29 bytes, indexed True
+2025-09-12 16:23:31,899 - DEBUG - Decoded 13, consumed 1 bytes
+2025-09-12 16:23:31,899 - DEBUG - Decoded 1, consumed 1 bytes
+2025-09-12 16:23:31,899 - DEBUG - Decoded (b'sb-gateway-version', <memory at 0x120b74ac0>), total consumed 17 bytes, indexed True
+2025-09-12 16:23:31,900 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:23:31,900 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:23:31,901 - DEBUG - Decoded (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), total consumed 29 bytes, indexed True
+2025-09-12 16:23:31,901 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:23:31,901 - DEBUG - Decoded 27, consumed 1 bytes
+2025-09-12 16:23:31,901 - DEBUG - Decoded (b'sb-request-id', b'01993e4f-5a95-7009-9b49-b7656d662575'), total consumed 40 bytes, indexed True
+2025-09-12 16:23:31,901 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:23:31,901 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:23:31,901 - DEBUG - Decoded (b'x-content-type-options', b'nosniff'), total consumed 24 bytes, indexed True
+2025-09-12 16:23:31,902 - DEBUG - Decoded 15, consumed 1 bytes
+2025-09-12 16:23:31,902 - DEBUG - Decoded 1, consumed 1 bytes
+2025-09-12 16:23:31,903 - DEBUG - Decoded (b'x-envoy-attempt-count', <memory at 0x120b74c40>), total consumed 19 bytes, indexed True
+2025-09-12 16:23:31,903 - DEBUG - Decoded 21, consumed 1 bytes
+2025-09-12 16:23:31,903 - DEBUG - Decoded 3, consumed 1 bytes
+2025-09-12 16:23:31,911 - DEBUG - Decoded (b'x-envoy-upstream-service-time', <memory at 0x120b74a00>), total consumed 27 bytes, indexed True
+2025-09-12 16:23:31,911 - DEBUG - Decoded 55, consumed 1 bytes
+2025-09-12 16:23:31,911 - DEBUG - Decoded 212, consumed 2 bytes
+2025-09-12 16:23:31,912 - DEBUG - Decoded (b'set-cookie', b'__cf_bm=AikU9szPXhUhm7exL7t7CpDDiohwugifW.a3S7w0h0U-1757687012-1.0.1.1-aEVGJJUHPMkxK1saY4Tri7w4ixg8FrLd7dmn1DO41C4r0QGxn1Z5oP9FJrePiqdmKbsbUQ4WDxNzecvf_WJTBeHkFrzumADT1aMmBg4N59Y; path=/; expires=Fri, 12-Sep-25 14:53:32 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), total consumed 215 bytes, indexed True
+2025-09-12 16:23:31,912 - DEBUG - Decoded 54, consumed 1 bytes
+2025-09-12 16:23:31,912 - DEBUG - Decoded 7, consumed 1 bytes
+2025-09-12 16:23:31,914 - DEBUG - Decoded (b'server', b'cloudflare'), total consumed 9 bytes, indexed True
+2025-09-12 16:23:31,914 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:23:31,916 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:23:31,916 - DEBUG - Decoded (b'alt-svc', b'h3=":443"; ma=86400'), total consumed 24 bytes, indexed True
+2025-09-12 16:23:31,916 - DEBUG - receive_response_headers.complete return_value=(400, [(b'date', b'Fri, 12 Sep 2025 14:23:32 GMT'), (b'content-type', b'application/json; charset=utf-8'), (b'cf-ray', b'97e01030d91f95f8-JNB'), (b'cf-cache-status', b'DYNAMIC'), (b'content-encoding', b'gzip'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'vary', b'Accept-Encoding'), (b'proxy-status', b'PostgREST; error=42703'), (b'sb-gateway-version', b'1'), (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), (b'sb-request-id', b'01993e4f-5a95-7009-9b49-b7656d662575'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'154'), (b'set-cookie', b'__cf_bm=AikU9szPXhUhm7exL7t7CpDDiohwugifW.a3S7w0h0U-1757687012-1.0.1.1-aEVGJJUHPMkxK1saY4Tri7w4ixg8FrLd7dmn1DO41C4r0QGxn1Z5oP9FJrePiqdmKbsbUQ4WDxNzecvf_WJTBeHkFrzumADT1aMmBg4N59Y; path=/; expires=Fri, 12-Sep-25 14:53:32 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), (b'server', b'cloudflare'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2025-09-12 16:23:31,919 - INFO - HTTP Request: GET https://xjaixiemjrpmiqxyvjaf.supabase.co/rest/v1/admin_users?select=profile_image&username=eq.em "HTTP/2 400 Bad Request"
+2025-09-12 16:23:31,919 - DEBUG - receive_response_body.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:23:31,920 - DEBUG - receive_response_body.complete
+2025-09-12 16:23:31,921 - DEBUG - response_closed.started stream_id=1
+2025-09-12 16:23:31,922 - DEBUG - response_closed.complete
+2025-09-12 16:23:31,922 - ERROR - ❌ Supabase error: {'code': '42703', 'details': None, 'hint': None, 'message': 'column admin_users.profile_image does not exist'}
+2025-09-12 16:23:32,098 - INFO - 127.0.0.1 - - [12/Sep/2025 16:23:32] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-09-12 16:23:32,179 - INFO - 127.0.0.1 - - [12/Sep/2025 16:23:32] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2025-09-12 16:23:32,187 - INFO - 127.0.0.1 - - [12/Sep/2025 16:23:32] "GET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-09-12 16:23:32,238 - INFO - 127.0.0.1 - - [12/Sep/2025 16:23:32] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=yTJOprb9lA9fKQYUD70i HTTP/1.1" 200 -
+2025-09-12 16:23:32,326 - INFO - 127.0.0.1 - - [12/Sep/2025 16:23:32] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2025-09-12 16:24:17,705 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.188.223:5000
+2025-09-12 16:24:17,706 - INFO - [33mPress CTRL+C to quit[0m
+2025-09-12 16:24:17,710 - INFO -  * Restarting with stat
+2025-09-12 16:24:24,831 - WARNING -  * Debugger is active!
+2025-09-12 16:24:24,854 - INFO -  * Debugger PIN: 620-532-995
+2025-09-12 16:24:24,955 - INFO - Debug: Login route accessed
+2025-09-12 16:24:24,955 - DEBUG - Debug: Rendering login page
+2025-09-12 16:24:24,978 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:24] "GET / HTTP/1.1" 200 -
+2025-09-12 16:24:25,150 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:25] "[36mGET /static/images/c3.jpg HTTP/1.1[0m" 304 -
+2025-09-12 16:24:25,150 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:25] "[36mGET /static/images/c2.jpg HTTP/1.1[0m" 304 -
+2025-09-12 16:24:25,245 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:25] "[36mGET /static/images/c1.jpg HTTP/1.1[0m" 304 -
+2025-09-12 16:24:25,818 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:25] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-12 16:24:32,327 - INFO - Debug: Login route accessed
+2025-09-12 16:24:32,334 - DEBUG - Debug: Received login request for username: em
+2025-09-12 16:24:32,334 - INFO - Debug: Verifying password for user: em
+2025-09-12 16:24:32,394 - DEBUG - connect_tcp.started host='xjaixiemjrpmiqxyvjaf.supabase.co' port=443 local_address=None timeout=120 socket_options=None
+2025-09-12 16:24:32,432 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1161201a0>
+2025-09-12 16:24:32,432 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x116032720> server_hostname='xjaixiemjrpmiqxyvjaf.supabase.co' timeout=120
+2025-09-12 16:24:32,486 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x11609b110>
+2025-09-12 16:24:32,487 - DEBUG - send_connection_init.started request=<Request [b'GET']>
+2025-09-12 16:24:32,488 - DEBUG - send_connection_init.complete
+2025-09-12 16:24:32,488 - DEBUG - send_request_headers.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:24:32,489 - DEBUG - Adding (b':method', b'GET') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,489 - DEBUG - Encoding 2 with 7 bits
+2025-09-12 16:24:32,489 - DEBUG - Adding (b':authority', b'xjaixiemjrpmiqxyvjaf.supabase.co') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,489 - DEBUG - Encoding 1 with 6 bits
+2025-09-12 16:24:32,489 - DEBUG - Encoding 24 with 7 bits
+2025-09-12 16:24:32,490 - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,490 - DEBUG - Encoding 7 with 7 bits
+2025-09-12 16:24:32,490 - DEBUG - Adding (b':path', b'/rest/v1/admin_users?select=password_hash&username=eq.em') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,490 - DEBUG - Encoding 4 with 6 bits
+2025-09-12 16:24:32,490 - DEBUG - Encoding 40 with 7 bits
+2025-09-12 16:24:32,490 - DEBUG - Adding (b'accept-encoding', b'gzip, deflate') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,490 - DEBUG - Encoding 16 with 7 bits
+2025-09-12 16:24:32,490 - DEBUG - Adding (b'user-agent', b'python-httpx/0.28.1') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,490 - DEBUG - Encoding 58 with 6 bits
+2025-09-12 16:24:32,491 - DEBUG - Encoding 14 with 7 bits
+2025-09-12 16:24:32,491 - DEBUG - Adding (b'x-client-info', b'supabase-py/2.13.0') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,491 - DEBUG - Encoding 10 with 7 bits
+2025-09-12 16:24:32,491 - DEBUG - Encoding 13 with 7 bits
+2025-09-12 16:24:32,491 - DEBUG - Adding (b'apikey', b'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,491 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:24:32,491 - DEBUG - Encoding 167 with 7 bits
+2025-09-12 16:24:32,491 - DEBUG - Adding (b'authorization', b'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:True, huffman:True
+2025-09-12 16:24:32,491 - DEBUG - Encoding 23 with 4 bits
+2025-09-12 16:24:32,492 - DEBUG - Encoding 172 with 7 bits
+2025-09-12 16:24:32,492 - DEBUG - Adding (b'accept-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,492 - DEBUG - Encoding 10 with 7 bits
+2025-09-12 16:24:32,492 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:24:32,492 - DEBUG - Adding (b'content-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,492 - DEBUG - Encoding 11 with 7 bits
+2025-09-12 16:24:32,492 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:24:32,492 - DEBUG - Adding (b'accept', b'application/vnd.pgrst.object+json') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,492 - DEBUG - Encoding 19 with 6 bits
+2025-09-12 16:24:32,492 - DEBUG - Encoding 24 with 7 bits
+2025-09-12 16:24:32,492 - DEBUG - Encoded header block to b"\x82A\x98\xf3\xd0f\xf2b\xd3\xd2\xca\xe97o>\xbb\xf4\x1c\xab\xa2\xda\xc7\x18\xd0U\xc8\x7f\x87D\xa8b\xc2\xa1,w\x0b\x03\x92\x93U\x15\xa8-\x88\xff\x10Z\nD\xc1X\xd0\x8f\x07\xb2H\xa7\x1a'\xf8\xb5\x05\xb2\xa1\xd2X\x0b\xd9r\xd3\x90z\x8e\xaf\xd2g=KN\x94\xd7\xe5\x80.'\x97\x0f@\x8a\xf2\xb1(1jJ\xc6\xaaS\xff\x8dE\xb5\x8e1\xa0\xabW\xe9\x81.\x16W\x07@\x85\x1df\xea__\xff(/\xac\xb3\xc7\x88\x86\xd4l\xb98{\xc8\x1d&\xc8\x8c\x95ml\x97\xb29\x93\xad\x7f\x9coe}r\xfa\xcbY\x19\xd0mF\xcb\xeeO\xcb\xb3\xf3\xa7\x0f\xbf\xdd\xd9\x11\x92\xac\xb4~\x9b#\x99*\x9f\xb7>T4>\\R:\xb2\xf8\x8f\x95\x1eK\x8e\x81\x0e\x9c4\xe47\x83\x12\x97\xd1\xfb\xbb#\x99)\xc3lbh\xd9\xefe\xaf\x9f\xe6\xc3j\xe9\x81\x9d;\xc8->\xf2{\xd1\x7fb2S\xc5\xa2^\xc8\xe6\x8e\x90\xb3\xa3\xde@j\xbf\xa3\xc6\x9c`\\\xdaK\x83t\xc37\xac~s-\xa7\xf3\x86\x7f]z\xcd\xb6D\xbb\xd7\xf3\x04l\x9b\x16\xe6\xfaV?xJ\xfeG\xbf\x1f\x08\xff-\xbaQ\xd8[\x14/\xac\xb3\xc7\x88\x86\xd4l\xb98{\xc8\x1d&\xc8\x8c\x95ml\x97\xb29\x93\xad\x7f\x9coe}r\xfa\xcbY\x19\xd0mF\xcb\xeeO\xcb\xb3\xf3\xa7\x0f\xbf\xdd\xd9\x11\x92\xac\xb4~\x9b#\x99*\x9f\xb7>T4>\\R:\xb2\xf8\x8f\x95\x1eK\x8e\x81\x0e\x9c4\xe47\x83\x12\x97\xd1\xfb\xbb#\x99)\xc3lbh\xd9\xefe\xaf\x9f\xe6\xc3j\xe9\x81\x9d;\xc8->\xf2{\xd1\x7fb2S\xc5\xa2^\xc8\xe6\x8e\x90\xb3\xa3\xde@j\xbf\xa3\xc6\x9c`\\\xdaK\x83t\xc37\xac~s-\xa7\xf3\x86\x7f]z\xcd\xb6D\xbb\xd7\xf3\x04l\x9b\x16\xe6\xfaV?xJ\xfeG\xbf@\x8a\x19\x08Z\xd2\xb5v\x1eSP_\x85\xae\xd8\xe81?@\x8b!\xeaIjJ\xd5\xd8yMA\x7f\x85\xae\xd8\xe81?S\x98\x1du\xd0b\r&=Lw\xaaE\xeb\x9a\xc4%s\xc7\xd0\xa4O\xfb\xe8\x83\xd5"
+2025-09-12 16:24:32,493 - DEBUG - send_request_headers.complete
+2025-09-12 16:24:32,493 - DEBUG - send_request_body.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:24:32,493 - DEBUG - send_request_body.complete
+2025-09-12 16:24:32,493 - DEBUG - receive_response_headers.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:24:32,580 - DEBUG - receive_remote_settings.started
+2025-09-12 16:24:32,582 - DEBUG - receive_remote_settings.complete return_value=<RemoteSettingsChanged changed_settings:{ChangedSetting(setting=3, original_value=None, new_value=100), ChangedSetting(setting=4, original_value=65535, new_value=65536), ChangedSetting(setting=5, original_value=16384, new_value=16777215)}>
+2025-09-12 16:24:32,961 - DEBUG - Decoding b'?\xe1\x1f\x88a\x96\xc3a\xbe\x94\x08\x94\xdcZ\xd4\x10\x04\xda\x81j\xe0\x9a\xb8\xcb*b\xd1\xbf_\xa3\x1du\xd0b\r&=Lw\xaaE\xeb\x9a\xc4%s\xc7\xd0\xa4O\xfb\xe8\x83\xd5\xf6\xa1\'\x1d\x88*`\xb52\xac\xf7\\\x0280^\x84\x02\xc0c\xe7@\x85$\xabX?_\x8f}\xd2\x80!\x8c\r\xca\xebO\xb6Y\x16\xcb\xa6\xef@\x8a$\xab\x10d\x9c\xab!#M\xa8\x86\xbf\xcfL:2^]\xa3`rRj\xa2\xb5\x05\xb1\x1f\xe2\x0bAH\x98+\x1a\x11\xe0\xf6I\x14\xe3D\xff\x16\xa0\xb6T:K\x01{.Z\x7fx\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93@\x8b!\xeaIjJ\xd5\xd8yMA\x7f\x85\xae\xd8\xe81?@\x8dDkL4\x97\xc0\xfd-\xdc\xb6 \xc7\xab\x011@\x8aDkWa\xfa\x14\x89Z\xc2\xcb\x90\xf3\xd0f\xf2b\xd3\xd2\xca\xe97o>\xbb\xf4\x1c\xbf@\x8aDkX^\xd6\x95\tX\xd2\x7f\x9a\x00_}\x92\xb6\x05\x9a\x1bN,\xec\xac\xb4\xb3\xcc\xb6\xda\xcf\xbcQ\x02A\xc6I\x08O@\x90\xf2\xb1\x0fRKRVO\xaa\xca\xb1\xebI\x8fR?\x85\xa8\xe8\xa8\xd2\xcb@\x8f\xf2\xb1j\xee\x7fK\r)-5\xa5b\x1e\xda\x93\x011@\x95\xf2\xb1j\xee\x7fK[Z\x13aGJ\xc8-\x9d\xccB\xac\x93R_\x0278w\xffW\x8a"K\x14t\xc0\xbe3\xdf\xc7\xfb\xf8i\xb9\xf2\xae$\xde\xb7B\xe3v\xad+\xed\xc2\xf4\xde&\xd6\xe2mm\x06\xc4|\x97\xf6\xfb\xc0\xb0]m\xd7\x1et\x0e\xb2\xb0W\x02\xe1\\+\x0f?\xe3^\x1d\xc5\xe7\xcb\x85\x9f\x97\x87=\x82\xae{r\xeb\xfc\xf3\x1e\xf4\xf9\x0f\xa8\xd3\xfa\xd3\xe9\xa2\xacv\xf6\xc8\xfc:u\xf3\xfc\x9b\xc7\xa6G\xee\x1a\xbf\x03\xcb6\xfe\xed\xe6\xa3\x8au\xf4\xfd\x96\xa7}\x96M\x8db\xd3\xcf\xf5\x14z\xba\xe5\x8b\xdd\xee4DA\xf1\x8aq\xb3;\xb8\xe5\xb3\xc7\xda\x95\x8d3\xc0\xc7\xda\x85\xf3Y\xac* \xc3a\xbe\x94\x08\x96\xdcZ\xd6\x13j\x05\xab\x8d\xb5q\x96T\xc5\xa3\x7f\xda\x92\x1e\x91\x9a\xa8\x17E\xb5\x8e1\xa0\xab\x90\xffjcJk\xd5U\x1e\xbe\xd4\xdcR[a~\xd4\xdc:K\xb8\xc9,\x1aOQ\x7f{\x8b\x84\x84-i[\x05D<\x86\xaaov\x87%\x07\xb6Ih\x1d\x85@\x85\x1d\tY\x1d\xc9\x90\x9d\x98?\x9b\x8d4\xcf\xf3\xf6\xa5#\x81\xe7\x1a\x00?'
+2025-09-12 16:24:32,962 - DEBUG - Decoded 4096, consumed 3 bytes
+2025-09-12 16:24:32,962 - DEBUG - Resizing header table to 4096 from 4096
+2025-09-12 16:24:32,962 - DEBUG - Decoded 8, consumed 1 bytes
+2025-09-12 16:24:32,962 - DEBUG - Decoded (b':status', b'200'), consumed 1
+2025-09-12 16:24:32,962 - DEBUG - Decoded 33, consumed 1 bytes
+2025-09-12 16:24:32,962 - DEBUG - Decoded 22, consumed 1 bytes
+2025-09-12 16:24:32,962 - DEBUG - Decoded (b'date', b'Fri, 12 Sep 2025 14:24:33 GMT'), total consumed 24 bytes, indexed True
+2025-09-12 16:24:32,963 - DEBUG - Decoded 31, consumed 1 bytes
+2025-09-12 16:24:32,963 - DEBUG - Decoded 35, consumed 1 bytes
+2025-09-12 16:24:32,963 - DEBUG - Decoded (b'content-type', b'application/vnd.pgrst.object+json; charset=utf-8'), total consumed 37 bytes, indexed True
+2025-09-12 16:24:32,963 - DEBUG - Decoded 28, consumed 1 bytes
+2025-09-12 16:24:32,964 - DEBUG - Decoded 2, consumed 1 bytes
+2025-09-12 16:24:32,964 - DEBUG - Decoded (b'content-length', <memory at 0x11609cdc0>), total consumed 4 bytes, indexed True
+2025-09-12 16:24:32,964 - DEBUG - Decoded 30, consumed 1 bytes
+2025-09-12 16:24:32,964 - DEBUG - Decoded 4, consumed 1 bytes
+2025-09-12 16:24:32,964 - DEBUG - Decoded (b'content-range', b'0-0/*'), total consumed 6 bytes, indexed True
+2025-09-12 16:24:32,964 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:24:32,964 - DEBUG - Decoded 15, consumed 1 bytes
+2025-09-12 16:24:32,964 - DEBUG - Decoded (b'cf-ray', b'97e011b05f7495ed-JNB'), total consumed 23 bytes, indexed True
+2025-09-12 16:24:32,965 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:24:32,965 - DEBUG - Decoded 6, consumed 1 bytes
+2025-09-12 16:24:32,965 - DEBUG - Decoded (b'cf-cache-status', b'DYNAMIC'), total consumed 19 bytes, indexed True
+2025-09-12 16:24:32,965 - DEBUG - Decoded 29, consumed 1 bytes
+2025-09-12 16:24:32,966 - DEBUG - Decoded 35, consumed 1 bytes
+2025-09-12 16:24:32,966 - DEBUG - Decoded (b'content-location', b'/admin_users?select=password_hash&username=eq.em'), total consumed 37 bytes, indexed True
+2025-09-12 16:24:32,966 - DEBUG - Decoded 56, consumed 1 bytes
+2025-09-12 16:24:32,966 - DEBUG - Decoded 32, consumed 1 bytes
+2025-09-12 16:24:32,966 - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 34 bytes, indexed True
+2025-09-12 16:24:32,966 - DEBUG - Decoded 11, consumed 1 bytes
+2025-09-12 16:24:32,966 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:24:32,966 - DEBUG - Decoded (b'content-profile', b'public'), total consumed 19 bytes, indexed True
+2025-09-12 16:24:32,967 - DEBUG - Decoded 13, consumed 1 bytes
+2025-09-12 16:24:32,967 - DEBUG - Decoded 1, consumed 1 bytes
+2025-09-12 16:24:32,967 - DEBUG - Decoded (b'sb-gateway-version', <memory at 0x11609cf40>), total consumed 17 bytes, indexed True
+2025-09-12 16:24:32,967 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:24:32,967 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:24:32,967 - DEBUG - Decoded (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), total consumed 29 bytes, indexed True
+2025-09-12 16:24:32,967 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:24:32,968 - DEBUG - Decoded 26, consumed 1 bytes
+2025-09-12 16:24:32,968 - DEBUG - Decoded (b'sb-request-id', b'01993e50-4a46-7f34-8355-98e20dabcdcc'), total consumed 39 bytes, indexed True
+2025-09-12 16:24:32,968 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:24:32,968 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:24:32,968 - DEBUG - Decoded (b'x-content-type-options', b'nosniff'), total consumed 24 bytes, indexed True
+2025-09-12 16:24:32,968 - DEBUG - Decoded 15, consumed 1 bytes
+2025-09-12 16:24:32,968 - DEBUG - Decoded 1, consumed 1 bytes
+2025-09-12 16:24:32,968 - DEBUG - Decoded (b'x-envoy-attempt-count', <memory at 0x11609d000>), total consumed 19 bytes, indexed True
+2025-09-12 16:24:32,968 - DEBUG - Decoded 21, consumed 1 bytes
+2025-09-12 16:24:32,969 - DEBUG - Decoded 2, consumed 1 bytes
+2025-09-12 16:24:32,969 - DEBUG - Decoded (b'x-envoy-upstream-service-time', <memory at 0x11609cc40>), total consumed 26 bytes, indexed True
+2025-09-12 16:24:32,969 - DEBUG - Decoded 55, consumed 1 bytes
+2025-09-12 16:24:32,969 - DEBUG - Decoded 214, consumed 2 bytes
+2025-09-12 16:24:32,970 - DEBUG - Decoded (b'set-cookie', b'__cf_bm=.HoDHZXigYWp_tCuM.a7nN.RF8gwgP6tu5siGoIDRzE-1757687073-1.0.1.1-aLX4w7Gxx6ehWw6z0nYRJPXxbTtx1ybtZ49tlnHuqI9ANPYXgwy3azAnX1WKTv5KlVtPjZfn7zedQ4GNYZslyB6r.Bvas_caV_ha3h7Hfrw; path=/; expires=Fri, 12-Sep-25 14:54:33 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), total consumed 217 bytes, indexed True
+2025-09-12 16:24:32,970 - DEBUG - Decoded 59, consumed 1 bytes
+2025-09-12 16:24:32,970 - DEBUG - Decoded 11, consumed 1 bytes
+2025-09-12 16:24:32,970 - DEBUG - Decoded (b'vary', b'Accept-Encoding'), total consumed 13 bytes, indexed True
+2025-09-12 16:24:32,970 - DEBUG - Decoded 54, consumed 1 bytes
+2025-09-12 16:24:32,970 - DEBUG - Decoded 7, consumed 1 bytes
+2025-09-12 16:24:32,971 - DEBUG - Decoded (b'server', b'cloudflare'), total consumed 9 bytes, indexed True
+2025-09-12 16:24:32,971 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:24:32,971 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:24:32,971 - DEBUG - Decoded (b'alt-svc', b'h3=":443"; ma=86400'), total consumed 24 bytes, indexed True
+2025-09-12 16:24:32,971 - DEBUG - receive_response_headers.complete return_value=(200, [(b'date', b'Fri, 12 Sep 2025 14:24:33 GMT'), (b'content-type', b'application/vnd.pgrst.object+json; charset=utf-8'), (b'content-length', b'80'), (b'content-range', b'0-0/*'), (b'cf-ray', b'97e011b05f7495ed-JNB'), (b'cf-cache-status', b'DYNAMIC'), (b'content-location', b'/admin_users?select=password_hash&username=eq.em'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'content-profile', b'public'), (b'sb-gateway-version', b'1'), (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), (b'sb-request-id', b'01993e50-4a46-7f34-8355-98e20dabcdcc'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'78'), (b'set-cookie', b'__cf_bm=.HoDHZXigYWp_tCuM.a7nN.RF8gwgP6tu5siGoIDRzE-1757687073-1.0.1.1-aLX4w7Gxx6ehWw6z0nYRJPXxbTtx1ybtZ49tlnHuqI9ANPYXgwy3azAnX1WKTv5KlVtPjZfn7zedQ4GNYZslyB6r.Bvas_caV_ha3h7Hfrw; path=/; expires=Fri, 12-Sep-25 14:54:33 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), (b'vary', b'Accept-Encoding'), (b'server', b'cloudflare'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2025-09-12 16:24:32,973 - INFO - HTTP Request: GET https://xjaixiemjrpmiqxyvjaf.supabase.co/rest/v1/admin_users?select=password_hash&username=eq.em "HTTP/2 200 OK"
+2025-09-12 16:24:32,973 - DEBUG - receive_response_body.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:24:32,974 - DEBUG - receive_response_body.complete
+2025-09-12 16:24:32,974 - DEBUG - response_closed.started stream_id=1
+2025-09-12 16:24:32,974 - DEBUG - response_closed.complete
+2025-09-12 16:24:32,987 - INFO - Debug: Password verification successful
+2025-09-12 16:24:32,987 - DEBUG - Debug: Authentication successful, setting session and redirecting
+2025-09-12 16:24:32,989 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:32] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-09-12 16:24:32,994 - DEBUG - send_request_headers.started request=<Request [b'GET']> stream_id=3
+2025-09-12 16:24:32,994 - DEBUG - Adding (b':method', b'GET') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,994 - DEBUG - Encoding 2 with 7 bits
+2025-09-12 16:24:32,994 - DEBUG - Adding (b':authority', b'xjaixiemjrpmiqxyvjaf.supabase.co') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,994 - DEBUG - Encoding 69 with 7 bits
+2025-09-12 16:24:32,994 - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,994 - DEBUG - Encoding 7 with 7 bits
+2025-09-12 16:24:32,994 - DEBUG - Adding (b':path', b'/rest/v1/admin_users?select=profile_image&username=eq.em') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,994 - DEBUG - Encoding 4 with 6 bits
+2025-09-12 16:24:32,995 - DEBUG - Encoding 40 with 7 bits
+2025-09-12 16:24:32,995 - DEBUG - Adding (b'accept-encoding', b'gzip, deflate') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,995 - DEBUG - Encoding 16 with 7 bits
+2025-09-12 16:24:32,995 - DEBUG - Adding (b'user-agent', b'python-httpx/0.28.1') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,995 - DEBUG - Encoding 68 with 7 bits
+2025-09-12 16:24:32,995 - DEBUG - Adding (b'x-client-info', b'supabase-py/2.13.0') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,995 - DEBUG - Encoding 67 with 7 bits
+2025-09-12 16:24:32,995 - DEBUG - Adding (b'apikey', b'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,995 - DEBUG - Encoding 66 with 7 bits
+2025-09-12 16:24:32,995 - DEBUG - Adding (b'authorization', b'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:True, huffman:True
+2025-09-12 16:24:32,995 - DEBUG - Encoding 23 with 4 bits
+2025-09-12 16:24:32,995 - DEBUG - Encoding 172 with 7 bits
+2025-09-12 16:24:32,995 - DEBUG - Adding (b'accept-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,995 - DEBUG - Encoding 65 with 7 bits
+2025-09-12 16:24:32,995 - DEBUG - Adding (b'content-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,995 - DEBUG - Encoding 64 with 7 bits
+2025-09-12 16:24:32,995 - DEBUG - Adding (b'accept', b'application/vnd.pgrst.object+json') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,996 - DEBUG - Encoding 63 with 7 bits
+2025-09-12 16:24:32,996 - DEBUG - Adding (b'cookie', b'__cf_bm=.HoDHZXigYWp_tCuM.a7nN.RF8gwgP6tu5siGoIDRzE-1757687073-1.0.1.1-aLX4w7Gxx6ehWw6z0nYRJPXxbTtx1ybtZ49tlnHuqI9ANPYXgwy3azAnX1WKTv5KlVtPjZfn7zedQ4GNYZslyB6r.Bvas_caV_ha3h7Hfrw') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:32,996 - DEBUG - Encoding 32 with 6 bits
+2025-09-12 16:24:32,996 - DEBUG - Encoding 140 with 7 bits
+2025-09-12 16:24:32,996 - DEBUG - Encoded header block to b'\x82\xc5\x87D\xa8b\xc2\xa1,w\x0b\x03\x92\x93U\x15\xa8-\x88\xff\x10Z\nD\xc1]\x87\x94\xd4\x16#R9\x8b\xf1j\x0beC\xa4\xb0\x17\xb2\xe5\xa7\x90\xc4\xc3\xc2\x1f\x08\xff-\xbaQ\xd8[\x14/\xac\xb3\xc7\x88\x86\xd4l\xb98{\xc8\x1d&\xc8\x8c\x95ml\x97\xb29\x93\xad\x7f\x9coe}r\xfa\xcbY\x19\xd0mF\xcb\xeeO\xcb\xb3\xf3\xa7\x0f\xbf\xdd\xd9\x11\x92\xac\xb4~\x9b#\x99*\x9f\xb7>T4>\\R:\xb2\xf8\x8f\x95\x1eK\x8e\x81\x0e\x9c4\xe47\x83\x12\x97\xd1\xfb\xbb#\x99)\xc3lbh\xd9\xefe\xaf\x9f\xe6\xc3j\xe9\x81\x9d;\xc8->\xf2{\xd1\x7fb2S\xc5\xa2^\xc8\xe6\x8e\x90\xb3\xa3\xde@j\xbf\xa3\xc6\x9c`\\\xdaK\x83t\xc37\xac~s-\xa7\xf3\x86\x7f]z\xcd\xb6D\xbb\xd7\xf3\x04l\x9b\x16\xe6\xfaV?xJ\xfeG\xbf\xc1\xc0\xbf`\xff\r\x8a"K\x14t\xc0\xbe3\xdf\xc7\xfb\xf8i\xb9\xf2\xae$\xde\xb7B\xe3v\xad+\xed\xc2\xf4\xde&\xd6\xe2mm\x06\xc4|\x97\xf6\xfb\xc0\xb0]m\xd7\x1et\x0e\xb2\xb0W\x02\xe1\\+\x0f?\xe3^\x1d\xc5\xe7\xcb\x85\x9f\x97\x87=\x82\xae{r\xeb\xfc\xf3\x1e\xf4\xf9\x0f\xa8\xd3\xfa\xd3\xe9\xa2\xacv\xf6\xc8\xfc:u\xf3\xfc\x9b\xc7\xa6G\xee\x1a\xbf\x03\xcb6\xfe\xed\xe6\xa3\x8au\xf4\xfd\x96\xa7}\x96M\x8db\xd3\xcf\xf5\x14z\xba\xe5\x8b\xdd\xee4DA\xf1\x8aq\xb3;\xb8\xe5\xb3\xc7'
+2025-09-12 16:24:32,996 - DEBUG - send_request_headers.complete
+2025-09-12 16:24:32,996 - DEBUG - send_request_body.started request=<Request [b'GET']> stream_id=3
+2025-09-12 16:24:32,996 - DEBUG - send_request_body.complete
+2025-09-12 16:24:32,996 - DEBUG - receive_response_headers.started request=<Request [b'GET']> stream_id=3
+2025-09-12 16:24:33,499 - DEBUG - Decoding b'\x8ca\x96\xc3a\xbe\x94\x08\x94\xdcZ\xd4\x10\x04\xda\x81j\xe0\x9a\xb8\xcbJb\xd1\xbf_\x96\x1du\xd0b\r&=LtA\xea\xfbP\x93\x8e\xc4\x150Z\x99V{\x7f\x0f\x8f}\xd2\x80!\x8d\x97c\x13/\xb6Y\x16\xcb\xa6\xef\xceZ\x83\x9b\xd9\xab\xcd\xc4@\x89\xae\xc3\xf9\xf4\xb2\x124\xda\x8f\x91\xd6t&m\xb87o\xfbP\xb6X{ hN\x81\x9f\xcc\xcb\x7f\x0b\x9a\x00_}\x92\xb6\x05\x9a#,\xac\xecl\x85g\x9e\x18\xd6z@\x01\xc6C \x19\x8d\xdf\xca\xc9\x7f\t\x0212\xc6\xc5'
+2025-09-12 16:24:33,500 - DEBUG - Decoded 12, consumed 1 bytes
+2025-09-12 16:24:33,502 - DEBUG - Decoded (b':status', b'400'), consumed 1
+2025-09-12 16:24:33,502 - DEBUG - Decoded 33, consumed 1 bytes
+2025-09-12 16:24:33,502 - DEBUG - Decoded 22, consumed 1 bytes
+2025-09-12 16:24:33,503 - DEBUG - Decoded (b'date', b'Fri, 12 Sep 2025 14:24:34 GMT'), total consumed 24 bytes, indexed True
+2025-09-12 16:24:33,503 - DEBUG - Decoded 31, consumed 1 bytes
+2025-09-12 16:24:33,503 - DEBUG - Decoded 22, consumed 1 bytes
+2025-09-12 16:24:33,503 - DEBUG - Decoded (b'content-type', b'application/json; charset=utf-8'), total consumed 24 bytes, indexed True
+2025-09-12 16:24:33,503 - DEBUG - Decoded 78, consumed 2 bytes
+2025-09-12 16:24:33,503 - DEBUG - Decoded 15, consumed 1 bytes
+2025-09-12 16:24:33,503 - DEBUG - Decoded (b'cf-ray', b'97e011b37b2395ed-JNB'), total consumed 18 bytes, indexed True
+2025-09-12 16:24:33,503 - DEBUG - Decoded 78, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded (b'cf-cache-status', b'DYNAMIC'), consumed 1
+2025-09-12 16:24:33,504 - DEBUG - Decoded 26, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded 3, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded (b'content-encoding', b'gzip'), total consumed 5 bytes, indexed True
+2025-09-12 16:24:33,504 - DEBUG - Decoded 77, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), consumed 1
+2025-09-12 16:24:33,504 - DEBUG - Decoded 68, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded (b'vary', b'Accept-Encoding'), consumed 1
+2025-09-12 16:24:33,504 - DEBUG - Decoded 9, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded 17, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded (b'proxy-status', b'PostgREST; error=42703'), total consumed 29 bytes, indexed True
+2025-09-12 16:24:33,504 - DEBUG - Decoded 76, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded (b'sb-gateway-version', <memory at 0x11609cf40>), consumed 1
+2025-09-12 16:24:33,504 - DEBUG - Decoded 75, consumed 1 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), consumed 1
+2025-09-12 16:24:33,504 - DEBUG - Decoded 74, consumed 2 bytes
+2025-09-12 16:24:33,504 - DEBUG - Decoded 26, consumed 1 bytes
+2025-09-12 16:24:33,518 - DEBUG - Decoded (b'sb-request-id', b'01993e50-4c33-7b31-88aa-8d00631d03b7'), total consumed 29 bytes, indexed True
+2025-09-12 16:24:33,519 - DEBUG - Decoded 74, consumed 1 bytes
+2025-09-12 16:24:33,519 - DEBUG - Decoded (b'x-content-type-options', b'nosniff'), consumed 1
+2025-09-12 16:24:33,519 - DEBUG - Decoded 73, consumed 1 bytes
+2025-09-12 16:24:33,519 - DEBUG - Decoded (b'x-envoy-attempt-count', <memory at 0x11609d000>), consumed 1
+2025-09-12 16:24:33,519 - DEBUG - Decoded 72, consumed 2 bytes
+2025-09-12 16:24:33,519 - DEBUG - Decoded 2, consumed 1 bytes
+2025-09-12 16:24:33,519 - DEBUG - Decoded (b'x-envoy-upstream-service-time', <memory at 0x11609cac0>), total consumed 5 bytes, indexed True
+2025-09-12 16:24:33,519 - DEBUG - Decoded 70, consumed 1 bytes
+2025-09-12 16:24:33,519 - DEBUG - Decoded (b'server', b'cloudflare'), consumed 1
+2025-09-12 16:24:33,519 - DEBUG - Decoded 69, consumed 1 bytes
+2025-09-12 16:24:33,519 - DEBUG - Decoded (b'alt-svc', b'h3=":443"; ma=86400'), consumed 1
+2025-09-12 16:24:33,520 - DEBUG - receive_response_headers.complete return_value=(400, [(b'date', b'Fri, 12 Sep 2025 14:24:34 GMT'), (b'content-type', b'application/json; charset=utf-8'), (b'cf-ray', b'97e011b37b2395ed-JNB'), (b'cf-cache-status', b'DYNAMIC'), (b'content-encoding', b'gzip'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'vary', b'Accept-Encoding'), (b'proxy-status', b'PostgREST; error=42703'), (b'sb-gateway-version', b'1'), (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), (b'sb-request-id', b'01993e50-4c33-7b31-88aa-8d00631d03b7'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'12'), (b'server', b'cloudflare'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2025-09-12 16:24:33,521 - INFO - HTTP Request: GET https://xjaixiemjrpmiqxyvjaf.supabase.co/rest/v1/admin_users?select=profile_image&username=eq.em "HTTP/2 400 Bad Request"
+2025-09-12 16:24:33,521 - DEBUG - receive_response_body.started request=<Request [b'GET']> stream_id=3
+2025-09-12 16:24:33,522 - DEBUG - receive_response_body.complete
+2025-09-12 16:24:33,529 - DEBUG - response_closed.started stream_id=3
+2025-09-12 16:24:33,529 - DEBUG - response_closed.complete
+2025-09-12 16:24:33,529 - ERROR - ❌ Supabase error: {'code': '42703', 'details': None, 'hint': None, 'message': 'column admin_users.profile_image does not exist'}
+2025-09-12 16:24:33,705 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:33] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-09-12 16:24:33,773 - DEBUG - send_request_headers.started request=<Request [b'GET']> stream_id=5
+2025-09-12 16:24:33,776 - DEBUG - Adding (b':method', b'GET') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,776 - DEBUG - Encoding 2 with 7 bits
+2025-09-12 16:24:33,810 - DEBUG - Adding (b':authority', b'xjaixiemjrpmiqxyvjaf.supabase.co') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,811 - DEBUG - Encoding 71 with 7 bits
+2025-09-12 16:24:33,811 - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,811 - DEBUG - Encoding 7 with 7 bits
+2025-09-12 16:24:33,814 - DEBUG - Adding (b':path', b'/rest/v1/admin_users?select=profile_image&username=eq.em') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,814 - DEBUG - Encoding 63 with 7 bits
+2025-09-12 16:24:33,814 - DEBUG - Adding (b'accept-encoding', b'gzip, deflate') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,814 - DEBUG - Encoding 16 with 7 bits
+2025-09-12 16:24:33,814 - DEBUG - Adding (b'user-agent', b'python-httpx/0.28.1') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,815 - DEBUG - Encoding 69 with 7 bits
+2025-09-12 16:24:33,815 - DEBUG - Adding (b'x-client-info', b'supabase-py/2.13.0') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,815 - DEBUG - Encoding 68 with 7 bits
+2025-09-12 16:24:33,815 - DEBUG - Adding (b'apikey', b'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,815 - DEBUG - Encoding 67 with 7 bits
+2025-09-12 16:24:33,816 - DEBUG - Adding (b'authorization', b'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:True, huffman:True
+2025-09-12 16:24:33,816 - DEBUG - Encoding 23 with 4 bits
+2025-09-12 16:24:33,817 - DEBUG - Encoding 172 with 7 bits
+2025-09-12 16:24:33,818 - DEBUG - Adding (b'accept-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,818 - DEBUG - Encoding 66 with 7 bits
+2025-09-12 16:24:33,819 - DEBUG - Adding (b'content-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,819 - DEBUG - Encoding 65 with 7 bits
+2025-09-12 16:24:33,820 - DEBUG - Adding (b'accept', b'application/vnd.pgrst.object+json') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,820 - DEBUG - Encoding 64 with 7 bits
+2025-09-12 16:24:33,820 - DEBUG - Adding (b'cookie', b'__cf_bm=.HoDHZXigYWp_tCuM.a7nN.RF8gwgP6tu5siGoIDRzE-1757687073-1.0.1.1-aLX4w7Gxx6ehWw6z0nYRJPXxbTtx1ybtZ49tlnHuqI9ANPYXgwy3azAnX1WKTv5KlVtPjZfn7zedQ4GNYZslyB6r.Bvas_caV_ha3h7Hfrw') to the header table, sensitive:False, huffman:True
+2025-09-12 16:24:33,820 - DEBUG - Encoding 62 with 7 bits
+2025-09-12 16:24:33,821 - DEBUG - Encoded header block to b'\x82\xc7\x87\xbf\x90\xc5\xc4\xc3\x1f\x08\xff-\xbaQ\xd8[\x14/\xac\xb3\xc7\x88\x86\xd4l\xb98{\xc8\x1d&\xc8\x8c\x95ml\x97\xb29\x93\xad\x7f\x9coe}r\xfa\xcbY\x19\xd0mF\xcb\xeeO\xcb\xb3\xf3\xa7\x0f\xbf\xdd\xd9\x11\x92\xac\xb4~\x9b#\x99*\x9f\xb7>T4>\\R:\xb2\xf8\x8f\x95\x1eK\x8e\x81\x0e\x9c4\xe47\x83\x12\x97\xd1\xfb\xbb#\x99)\xc3lbh\xd9\xefe\xaf\x9f\xe6\xc3j\xe9\x81\x9d;\xc8->\xf2{\xd1\x7fb2S\xc5\xa2^\xc8\xe6\x8e\x90\xb3\xa3\xde@j\xbf\xa3\xc6\x9c`\\\xdaK\x83t\xc37\xac~s-\xa7\xf3\x86\x7f]z\xcd\xb6D\xbb\xd7\xf3\x04l\x9b\x16\xe6\xfaV?xJ\xfeG\xbf\xc2\xc1\xc0\xbe'
+2025-09-12 16:24:33,821 - DEBUG - send_request_headers.complete
+2025-09-12 16:24:33,821 - DEBUG - send_request_body.started request=<Request [b'GET']> stream_id=5
+2025-09-12 16:24:33,824 - DEBUG - send_request_body.complete
+2025-09-12 16:24:33,824 - DEBUG - receive_response_headers.started request=<Request [b'GET']> stream_id=5
+2025-09-12 16:24:34,233 - DEBUG - Decoding b'\x8c\xc4\xc3\x7f\x14\x8f}\xd2\x80!\x8d\xe7\xdflo\xb6Y\x16\xcb\xa6\xef\xd3\xc2\xd1\xc8\xc1\xcf\xce\x7f\x0e\x9a\x00_}\x92\xb6\x05\x9a\x95\xc9\x16tN\x89g\xc4\x08\xd6jRH\xd0\x026\x8a7?\xcd\xcc\x7f\x0c\x017\xc9\xc8'
+2025-09-12 16:24:34,233 - DEBUG - Decoded 12, consumed 1 bytes
+2025-09-12 16:24:34,234 - DEBUG - Decoded (b':status', b'400'), consumed 1
+2025-09-12 16:24:34,235 - DEBUG - Decoded 68, consumed 1 bytes
+2025-09-12 16:24:34,236 - DEBUG - Decoded (b'date', b'Fri, 12 Sep 2025 14:24:34 GMT'), consumed 1
+2025-09-12 16:24:34,236 - DEBUG - Decoded 67, consumed 1 bytes
+2025-09-12 16:24:34,236 - DEBUG - Decoded (b'content-type', b'application/json; charset=utf-8'), consumed 1
+2025-09-12 16:24:34,236 - DEBUG - Decoded 83, consumed 2 bytes
+2025-09-12 16:24:34,237 - DEBUG - Decoded 15, consumed 1 bytes
+2025-09-12 16:24:34,237 - DEBUG - Decoded (b'cf-ray', b'97e011b8995a95ed-JNB'), total consumed 18 bytes, indexed True
+2025-09-12 16:24:34,237 - DEBUG - Decoded 83, consumed 1 bytes
+2025-09-12 16:24:34,238 - DEBUG - Decoded (b'cf-cache-status', b'DYNAMIC'), consumed 1
+2025-09-12 16:24:34,238 - DEBUG - Decoded 66, consumed 1 bytes
+2025-09-12 16:24:34,238 - DEBUG - Decoded (b'content-encoding', b'gzip'), consumed 1
+2025-09-12 16:24:34,238 - DEBUG - Decoded 81, consumed 1 bytes
+2025-09-12 16:24:34,238 - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), consumed 1
+2025-09-12 16:24:34,238 - DEBUG - Decoded 72, consumed 1 bytes
+2025-09-12 16:24:34,238 - DEBUG - Decoded (b'vary', b'Accept-Encoding'), consumed 1
+2025-09-12 16:24:34,239 - DEBUG - Decoded 65, consumed 1 bytes
+2025-09-12 16:24:34,239 - DEBUG - Decoded (b'proxy-status', b'PostgREST; error=42703'), consumed 1
+2025-09-12 16:24:34,239 - DEBUG - Decoded 79, consumed 1 bytes
+2025-09-12 16:24:34,239 - DEBUG - Decoded (b'sb-gateway-version', <memory at 0x11609cf40>), consumed 1
+2025-09-12 16:24:34,239 - DEBUG - Decoded 78, consumed 1 bytes
+2025-09-12 16:24:34,239 - DEBUG - Decoded (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), consumed 1
+2025-09-12 16:24:34,239 - DEBUG - Decoded 77, consumed 2 bytes
+2025-09-12 16:24:34,239 - DEBUG - Decoded 26, consumed 1 bytes
+2025-09-12 16:24:34,240 - DEBUG - Decoded (b'sb-request-id', b'01993e50-4f6d-7272-920b-4fcd401a4ea6'), total consumed 29 bytes, indexed True
+2025-09-12 16:24:34,240 - DEBUG - Decoded 77, consumed 1 bytes
+2025-09-12 16:24:34,240 - DEBUG - Decoded (b'x-content-type-options', b'nosniff'), consumed 1
+2025-09-12 16:24:34,240 - DEBUG - Decoded 76, consumed 1 bytes
+2025-09-12 16:24:34,240 - DEBUG - Decoded (b'x-envoy-attempt-count', <memory at 0x11609d000>), consumed 1
+2025-09-12 16:24:34,241 - DEBUG - Decoded 75, consumed 2 bytes
+2025-09-12 16:24:34,241 - DEBUG - Decoded 1, consumed 1 bytes
+2025-09-12 16:24:34,241 - DEBUG - Decoded (b'x-envoy-upstream-service-time', <memory at 0x11609e5c0>), total consumed 4 bytes, indexed True
+2025-09-12 16:24:34,241 - DEBUG - Decoded 73, consumed 1 bytes
+2025-09-12 16:24:34,241 - DEBUG - Decoded (b'server', b'cloudflare'), consumed 1
+2025-09-12 16:24:34,242 - DEBUG - Decoded 72, consumed 1 bytes
+2025-09-12 16:24:34,242 - DEBUG - Decoded (b'alt-svc', b'h3=":443"; ma=86400'), consumed 1
+2025-09-12 16:24:34,243 - DEBUG - receive_response_headers.complete return_value=(400, [(b'date', b'Fri, 12 Sep 2025 14:24:34 GMT'), (b'content-type', b'application/json; charset=utf-8'), (b'cf-ray', b'97e011b8995a95ed-JNB'), (b'cf-cache-status', b'DYNAMIC'), (b'content-encoding', b'gzip'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'vary', b'Accept-Encoding'), (b'proxy-status', b'PostgREST; error=42703'), (b'sb-gateway-version', b'1'), (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), (b'sb-request-id', b'01993e50-4f6d-7272-920b-4fcd401a4ea6'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'7'), (b'server', b'cloudflare'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2025-09-12 16:24:34,244 - INFO - HTTP Request: GET https://xjaixiemjrpmiqxyvjaf.supabase.co/rest/v1/admin_users?select=profile_image&username=eq.em "HTTP/2 400 Bad Request"
+2025-09-12 16:24:34,245 - DEBUG - receive_response_body.started request=<Request [b'GET']> stream_id=5
+2025-09-12 16:24:34,245 - DEBUG - receive_response_body.complete
+2025-09-12 16:24:34,246 - DEBUG - response_closed.started stream_id=5
+2025-09-12 16:24:34,246 - DEBUG - response_closed.complete
+2025-09-12 16:24:34,247 - ERROR - ❌ Supabase error: {'code': '42703', 'details': None, 'hint': None, 'message': 'column admin_users.profile_image does not exist'}
+2025-09-12 16:24:34,280 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:34] "[35m[1mGET /dashboard HTTP/1.1[0m" 500 -
+2025-09-12 16:24:34,403 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:34] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2025-09-12 16:24:34,403 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:34] "[36mGET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-09-12 16:24:34,465 - INFO - 127.0.0.1 - - [12/Sep/2025 16:24:34] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=sPezkTnwLHMpWUElZb3N HTTP/1.1" 200 -
+2025-09-12 16:25:32,558 - INFO -  * Detected change in '/Users/emeldamada/Documents/Restaurant_P_O_C/app.py', reloading
+2025-09-12 16:25:33,629 - INFO -  * Restarting with stat
+2025-09-12 16:25:41,068 - WARNING -  * Debugger is active!
+2025-09-12 16:25:41,093 - INFO -  * Debugger PIN: 620-532-995
+2025-09-12 16:25:56,620 - INFO -  * Detected change in '/Users/emeldamada/Documents/Restaurant_P_O_C/app.py', reloading
+2025-09-12 16:25:57,084 - INFO -  * Restarting with stat
+2025-09-12 16:26:03,443 - WARNING -  * Debugger is active!
+2025-09-12 16:26:03,463 - INFO -  * Debugger PIN: 620-532-995
+2025-09-12 16:26:03,629 - DEBUG - connect_tcp.started host='xjaixiemjrpmiqxyvjaf.supabase.co' port=443 local_address=None timeout=120 socket_options=None
+2025-09-12 16:26:03,722 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x120d9b8c0>
+2025-09-12 16:26:03,723 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x120d2ab10> server_hostname='xjaixiemjrpmiqxyvjaf.supabase.co' timeout=120
+2025-09-12 16:26:03,777 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x120da1d10>
+2025-09-12 16:26:03,780 - DEBUG - send_connection_init.started request=<Request [b'GET']>
+2025-09-12 16:26:03,781 - DEBUG - send_connection_init.complete
+2025-09-12 16:26:03,781 - DEBUG - send_request_headers.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:26:03,782 - DEBUG - Adding (b':method', b'GET') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,783 - DEBUG - Encoding 2 with 7 bits
+2025-09-12 16:26:03,783 - DEBUG - Adding (b':authority', b'xjaixiemjrpmiqxyvjaf.supabase.co') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,783 - DEBUG - Encoding 1 with 6 bits
+2025-09-12 16:26:03,783 - DEBUG - Encoding 24 with 7 bits
+2025-09-12 16:26:03,784 - DEBUG - Adding (b':scheme', b'https') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,784 - DEBUG - Encoding 7 with 7 bits
+2025-09-12 16:26:03,784 - DEBUG - Adding (b':path', b'/rest/v1/admin_users?select=profile_image&username=eq.em') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,784 - DEBUG - Encoding 4 with 6 bits
+2025-09-12 16:26:03,784 - DEBUG - Encoding 40 with 7 bits
+2025-09-12 16:26:03,785 - DEBUG - Adding (b'accept-encoding', b'gzip, deflate') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,785 - DEBUG - Encoding 16 with 7 bits
+2025-09-12 16:26:03,785 - DEBUG - Adding (b'user-agent', b'python-httpx/0.28.1') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,785 - DEBUG - Encoding 58 with 6 bits
+2025-09-12 16:26:03,785 - DEBUG - Encoding 14 with 7 bits
+2025-09-12 16:26:03,785 - DEBUG - Adding (b'x-client-info', b'supabase-py/2.13.0') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,785 - DEBUG - Encoding 10 with 7 bits
+2025-09-12 16:26:03,785 - DEBUG - Encoding 13 with 7 bits
+2025-09-12 16:26:03,785 - DEBUG - Adding (b'apikey', b'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,786 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:26:03,786 - DEBUG - Encoding 167 with 7 bits
+2025-09-12 16:26:03,786 - DEBUG - Adding (b'authorization', b'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqYWl4aWVtanJwbWlxeHl2amFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzIzMDQsImV4cCI6MjA3MzI0ODMwNH0.iNeESgaiyHxK-NXULykkgRdt7kXEb3iGS5jpazFe9I8') to the header table, sensitive:True, huffman:True
+2025-09-12 16:26:03,786 - DEBUG - Encoding 23 with 4 bits
+2025-09-12 16:26:03,786 - DEBUG - Encoding 172 with 7 bits
+2025-09-12 16:26:03,786 - DEBUG - Adding (b'accept-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,787 - DEBUG - Encoding 10 with 7 bits
+2025-09-12 16:26:03,787 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:26:03,787 - DEBUG - Adding (b'content-profile', b'public') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,787 - DEBUG - Encoding 11 with 7 bits
+2025-09-12 16:26:03,787 - DEBUG - Encoding 5 with 7 bits
+2025-09-12 16:26:03,787 - DEBUG - Adding (b'accept', b'application/vnd.pgrst.object+json') to the header table, sensitive:False, huffman:True
+2025-09-12 16:26:03,787 - DEBUG - Encoding 19 with 6 bits
+2025-09-12 16:26:03,787 - DEBUG - Encoding 24 with 7 bits
+2025-09-12 16:26:03,788 - DEBUG - Encoded header block to b"\x82A\x98\xf3\xd0f\xf2b\xd3\xd2\xca\xe97o>\xbb\xf4\x1c\xab\xa2\xda\xc7\x18\xd0U\xc8\x7f\x87D\xa8b\xc2\xa1,w\x0b\x03\x92\x93U\x15\xa8-\x88\xff\x10Z\nD\xc1]\x87\x94\xd4\x16#R9\x8b\xf1j\x0beC\xa4\xb0\x17\xb2\xe5\xa7\x90z\x8e\xaf\xd2g=KN\x94\xd7\xe5\x80.'\x97\x0f@\x8a\xf2\xb1(1jJ\xc6\xaaS\xff\x8dE\xb5\x8e1\xa0\xabW\xe9\x81.\x16W\x07@\x85\x1df\xea__\xff(/\xac\xb3\xc7\x88\x86\xd4l\xb98{\xc8\x1d&\xc8\x8c\x95ml\x97\xb29\x93\xad\x7f\x9coe}r\xfa\xcbY\x19\xd0mF\xcb\xeeO\xcb\xb3\xf3\xa7\x0f\xbf\xdd\xd9\x11\x92\xac\xb4~\x9b#\x99*\x9f\xb7>T4>\\R:\xb2\xf8\x8f\x95\x1eK\x8e\x81\x0e\x9c4\xe47\x83\x12\x97\xd1\xfb\xbb#\x99)\xc3lbh\xd9\xefe\xaf\x9f\xe6\xc3j\xe9\x81\x9d;\xc8->\xf2{\xd1\x7fb2S\xc5\xa2^\xc8\xe6\x8e\x90\xb3\xa3\xde@j\xbf\xa3\xc6\x9c`\\\xdaK\x83t\xc37\xac~s-\xa7\xf3\x86\x7f]z\xcd\xb6D\xbb\xd7\xf3\x04l\x9b\x16\xe6\xfaV?xJ\xfeG\xbf\x1f\x08\xff-\xbaQ\xd8[\x14/\xac\xb3\xc7\x88\x86\xd4l\xb98{\xc8\x1d&\xc8\x8c\x95ml\x97\xb29\x93\xad\x7f\x9coe}r\xfa\xcbY\x19\xd0mF\xcb\xeeO\xcb\xb3\xf3\xa7\x0f\xbf\xdd\xd9\x11\x92\xac\xb4~\x9b#\x99*\x9f\xb7>T4>\\R:\xb2\xf8\x8f\x95\x1eK\x8e\x81\x0e\x9c4\xe47\x83\x12\x97\xd1\xfb\xbb#\x99)\xc3lbh\xd9\xefe\xaf\x9f\xe6\xc3j\xe9\x81\x9d;\xc8->\xf2{\xd1\x7fb2S\xc5\xa2^\xc8\xe6\x8e\x90\xb3\xa3\xde@j\xbf\xa3\xc6\x9c`\\\xdaK\x83t\xc37\xac~s-\xa7\xf3\x86\x7f]z\xcd\xb6D\xbb\xd7\xf3\x04l\x9b\x16\xe6\xfaV?xJ\xfeG\xbf@\x8a\x19\x08Z\xd2\xb5v\x1eSP_\x85\xae\xd8\xe81?@\x8b!\xeaIjJ\xd5\xd8yMA\x7f\x85\xae\xd8\xe81?S\x98\x1du\xd0b\r&=Lw\xaaE\xeb\x9a\xc4%s\xc7\xd0\xa4O\xfb\xe8\x83\xd5"
+2025-09-12 16:26:03,788 - DEBUG - send_request_headers.complete
+2025-09-12 16:26:03,788 - DEBUG - send_request_body.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:26:03,788 - DEBUG - send_request_body.complete
+2025-09-12 16:26:03,788 - DEBUG - receive_response_headers.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:26:03,815 - DEBUG - receive_remote_settings.started
+2025-09-12 16:26:03,816 - DEBUG - receive_remote_settings.complete return_value=<RemoteSettingsChanged changed_settings:{ChangedSetting(setting=3, original_value=None, new_value=100), ChangedSetting(setting=4, original_value=65535, new_value=65536), ChangedSetting(setting=5, original_value=16384, new_value=16777215)}>
+2025-09-12 16:26:04,962 - DEBUG - Decoding b'?\xe1\x1f\x8ca\x96\xc3a\xbe\x94\x08\x94\xdcZ\xd4\x10\x04\xda\x81j\xe0\x9c\xb8\x06\xd4\xc5\xa3\x7f_\x96\x1du\xd0b\r&=LtA\xea\xfbP\x93\x8e\xc4\x150Z\x99V{@\x85$\xabX?_\x8f}\xd2\x80,\x94e}\xd1>\xdc\xac\xad\x97M\xdf@\x8a$\xab\x10d\x9c\xab!#M\xa8\x86\xbf\xcfL:2^Z\x83\x9b\xd9\xabx\xa0\xa4~V\x1c\xc5\x81\x90\xb6\xcb\x80\x00>\xd45D\xa2\xd9\x0b\xba\xd8\xef\x9e\x91\x9a\xa4}\xa9]\x85\xa0\xe3\x93{\x8b\x84\x84-i[\x05D<\x86\xaao@\x89\xae\xc3\xf9\xf4\xb2\x124\xda\x8f\x91\xd6t&m\xb87o\xfbP\xb6X{ hN\x81\x9f@\x8dDkL4\x97\xc0\xfd-\xdc\xb6 \xc7\xab\x011@\x8aDkWa\xfa\x14\x89Z\xc2\xcb\x90\xf3\xd0f\xf2b\xd3\xd2\xca\xe97o>\xbb\xf4\x1c\xbf@\x8aDkX^\xd6\x95\tX\xd2\x7f\x9a\x00_}\x92\xb6\x15\x86Y\n\xb3\xa5xk=+"Xc\x91\xa6\xa3u\xe7\x06\xdb\x9f@\x90\xf2\xb1\x0fRKRVO\xaa\xca\xb1\xebI\x8fR?\x85\xa8\xe8\xa8\xd2\xcb@\x8f\xf2\xb1j\xee\x7fK\r)-5\xa5b\x1e\xda\x93\x011@\x95\xf2\xb1j\xee\x7fK[Z\x13aGJ\xc8-\x9d\xccB\xac\x93R_\x0217w\xffV\x8a"K\x14t\xc1\xf9\xda\xd6\xd2\x8e[z\x93\r\x1e<]r\x1d\xbb\xe7\x9f\xd9sv\xd7\xd6\x8e[c\xf3\x89x\xac\x8f\xa3=h\xeb\n\xc1u\xb7\\y\xd0\xb8\xda\xc1\\\x0b\x85p\xad\xdbO\x12;\xbfL\x88\xd1\xca\xdd\xfb\x1d\xbf\xd9-\xf6\xbc b\xaf\x80q\xaf\xdd\xfc\xbf\xb1\xd1\xd7\t\x9c\xf5\xd7\x88z{\xc6\xd5co\x13\xf5\x8e\xbe\x9d\x7f;\'/\x91z\xd7\xc1\xd3J\x9cY\x9bv\xf7N\x02\xa0e\xe5\xefh\xa6\xbe)\xe8\xed>\x839\xe7+9\x03wE\xd6\xfd2\x7f\xb5+\x1ag\x81\x8f\xb5\x0b\xe6\xb3XTA\x86\xc3}(\x11-\xb8\xb5\xac&\xd4\x0bW\x1br\xe0\x1bS\x16\x8d\xffjHzFj\xa0]\x16\xd68\xc6\x82\xaeC\xfd\xa9\x8d)\xafUTz\xfbSqIm\x85\xfbSp\xe9.\xe3$\xb0i=Ev\x87%\x07\xb6Ih\x1d\x85@\x85\x1d\tY\x1d\xc9\x90\x9d\x98?\x9b\x8d4\xcf\xf3\xf6\xa5#\x81\xe7\x1a\x00?'
+2025-09-12 16:26:04,963 - DEBUG - Decoded 4096, consumed 3 bytes
+2025-09-12 16:26:04,963 - DEBUG - Resizing header table to 4096 from 4096
+2025-09-12 16:26:04,964 - DEBUG - Decoded 12, consumed 1 bytes
+2025-09-12 16:26:04,964 - DEBUG - Decoded (b':status', b'400'), consumed 1
+2025-09-12 16:26:04,964 - DEBUG - Decoded 33, consumed 1 bytes
+2025-09-12 16:26:04,964 - DEBUG - Decoded 22, consumed 1 bytes
+2025-09-12 16:26:04,965 - DEBUG - Decoded (b'date', b'Fri, 12 Sep 2025 14:26:05 GMT'), total consumed 24 bytes, indexed True
+2025-09-12 16:26:04,965 - DEBUG - Decoded 31, consumed 1 bytes
+2025-09-12 16:26:04,965 - DEBUG - Decoded 22, consumed 1 bytes
+2025-09-12 16:26:04,965 - DEBUG - Decoded (b'content-type', b'application/json; charset=utf-8'), total consumed 24 bytes, indexed True
+2025-09-12 16:26:04,965 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:26:04,965 - DEBUG - Decoded 15, consumed 1 bytes
+2025-09-12 16:26:04,965 - DEBUG - Decoded (b'cf-ray', b'97e013eae97295f3-JNB'), total consumed 23 bytes, indexed True
+2025-09-12 16:26:04,966 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:26:04,966 - DEBUG - Decoded 6, consumed 1 bytes
+2025-09-12 16:26:04,967 - DEBUG - Decoded (b'cf-cache-status', b'DYNAMIC'), total consumed 19 bytes, indexed True
+2025-09-12 16:26:04,967 - DEBUG - Decoded 26, consumed 1 bytes
+2025-09-12 16:26:04,967 - DEBUG - Decoded 3, consumed 1 bytes
+2025-09-12 16:26:04,967 - DEBUG - Decoded (b'content-encoding', b'gzip'), total consumed 5 bytes, indexed True
+2025-09-12 16:26:04,967 - DEBUG - Decoded 56, consumed 1 bytes
+2025-09-12 16:26:04,967 - DEBUG - Decoded 32, consumed 1 bytes
+2025-09-12 16:26:04,967 - DEBUG - Decoded (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), total consumed 34 bytes, indexed True
+2025-09-12 16:26:04,967 - DEBUG - Decoded 59, consumed 1 bytes
+2025-09-12 16:26:04,967 - DEBUG - Decoded 11, consumed 1 bytes
+2025-09-12 16:26:04,967 - DEBUG - Decoded (b'vary', b'Accept-Encoding'), total consumed 13 bytes, indexed True
+2025-09-12 16:26:04,967 - DEBUG - Decoded 9, consumed 1 bytes
+2025-09-12 16:26:04,967 - DEBUG - Decoded 17, consumed 1 bytes
+2025-09-12 16:26:04,968 - DEBUG - Decoded (b'proxy-status', b'PostgREST; error=42703'), total consumed 29 bytes, indexed True
+2025-09-12 16:26:04,968 - DEBUG - Decoded 13, consumed 1 bytes
+2025-09-12 16:26:04,968 - DEBUG - Decoded 1, consumed 1 bytes
+2025-09-12 16:26:04,968 - DEBUG - Decoded (b'sb-gateway-version', <memory at 0x120da4ac0>), total consumed 17 bytes, indexed True
+2025-09-12 16:26:04,968 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:26:04,968 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:26:04,968 - DEBUG - Decoded (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), total consumed 29 bytes, indexed True
+2025-09-12 16:26:04,969 - DEBUG - Decoded 10, consumed 1 bytes
+2025-09-12 16:26:04,969 - DEBUG - Decoded 26, consumed 1 bytes
+2025-09-12 16:26:04,969 - DEBUG - Decoded (b'sb-request-id', b'01993e51-aede-7e8a-8f32-aad44b786a56'), total consumed 39 bytes, indexed True
+2025-09-12 16:26:04,969 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:26:04,969 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:26:04,969 - DEBUG - Decoded (b'x-content-type-options', b'nosniff'), total consumed 24 bytes, indexed True
+2025-09-12 16:26:04,969 - DEBUG - Decoded 15, consumed 1 bytes
+2025-09-12 16:26:04,969 - DEBUG - Decoded 1, consumed 1 bytes
+2025-09-12 16:26:04,970 - DEBUG - Decoded (b'x-envoy-attempt-count', <memory at 0x120da4c40>), total consumed 19 bytes, indexed True
+2025-09-12 16:26:04,970 - DEBUG - Decoded 21, consumed 1 bytes
+2025-09-12 16:26:04,970 - DEBUG - Decoded 2, consumed 1 bytes
+2025-09-12 16:26:04,970 - DEBUG - Decoded (b'x-envoy-upstream-service-time', <memory at 0x120da4a00>), total consumed 26 bytes, indexed True
+2025-09-12 16:26:04,970 - DEBUG - Decoded 55, consumed 1 bytes
+2025-09-12 16:26:04,970 - DEBUG - Decoded 213, consumed 2 bytes
+2025-09-12 16:26:04,970 - DEBUG - Decoded (b'set-cookie', b'__cf_bm=Xqu5tsWRkcFlwwB6ARThhzeKqPklWRbxG._rbj3klkA-1757687165-1.0.1.1-qNVc7TNdsMWuTQ7Dqt5qC20GpU1H.v9JZblkFi6ykV1jzH4pa5G9papjkXqtJx2yPU7iftGK57CjU2laeWzR2gD2hlqhMi6xJ3I1BMB5y3o; path=/; expires=Fri, 12-Sep-25 14:56:05 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), total consumed 216 bytes, indexed True
+2025-09-12 16:26:04,970 - DEBUG - Decoded 54, consumed 1 bytes
+2025-09-12 16:26:04,970 - DEBUG - Decoded 7, consumed 1 bytes
+2025-09-12 16:26:04,971 - DEBUG - Decoded (b'server', b'cloudflare'), total consumed 9 bytes, indexed True
+2025-09-12 16:26:04,971 - DEBUG - Decoded 5, consumed 1 bytes
+2025-09-12 16:26:04,971 - DEBUG - Decoded 16, consumed 1 bytes
+2025-09-12 16:26:04,971 - DEBUG - Decoded (b'alt-svc', b'h3=":443"; ma=86400'), total consumed 24 bytes, indexed True
+2025-09-12 16:26:04,971 - DEBUG - receive_response_headers.complete return_value=(400, [(b'date', b'Fri, 12 Sep 2025 14:26:05 GMT'), (b'content-type', b'application/json; charset=utf-8'), (b'cf-ray', b'97e013eae97295f3-JNB'), (b'cf-cache-status', b'DYNAMIC'), (b'content-encoding', b'gzip'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'vary', b'Accept-Encoding'), (b'proxy-status', b'PostgREST; error=42703'), (b'sb-gateway-version', b'1'), (b'sb-project-ref', b'xjaixiemjrpmiqxyvjaf'), (b'sb-request-id', b'01993e51-aede-7e8a-8f32-aad44b786a56'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'17'), (b'set-cookie', b'__cf_bm=Xqu5tsWRkcFlwwB6ARThhzeKqPklWRbxG._rbj3klkA-1757687165-1.0.1.1-qNVc7TNdsMWuTQ7Dqt5qC20GpU1H.v9JZblkFi6ykV1jzH4pa5G9papjkXqtJx2yPU7iftGK57CjU2laeWzR2gD2hlqhMi6xJ3I1BMB5y3o; path=/; expires=Fri, 12-Sep-25 14:56:05 GMT; domain=.supabase.co; HttpOnly; Secure; SameSite=None'), (b'server', b'cloudflare'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2025-09-12 16:26:04,972 - INFO - HTTP Request: GET https://xjaixiemjrpmiqxyvjaf.supabase.co/rest/v1/admin_users?select=profile_image&username=eq.em "HTTP/2 400 Bad Request"
+2025-09-12 16:26:04,972 - DEBUG - receive_response_body.started request=<Request [b'GET']> stream_id=1
+2025-09-12 16:26:04,973 - DEBUG - receive_response_body.complete
+2025-09-12 16:26:04,973 - DEBUG - response_closed.started stream_id=1
+2025-09-12 16:26:04,973 - DEBUG - response_closed.complete
+2025-09-12 16:26:04,973 - ERROR - ❌ Supabase error: {'code': '42703', 'details': None, 'hint': None, 'message': 'column admin_users.profile_image does not exist'}
+2025-09-12 16:26:05,014 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /dashboard HTTP/1.1" 200 -
+2025-09-12 16:26:05,207 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/css/tooltips.css HTTP/1.1" 200 -
+2025-09-12 16:26:05,207 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/css/perfect-scrollbar.css HTTP/1.1" 200 -
+2025-09-12 16:26:05,207 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/css/nucleo-svg.css HTTP/1.1" 200 -
+2025-09-12 16:26:05,208 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/css/argon-dashboard-tailwind.css HTTP/1.1" 200 -
+2025-09-12 16:26:05,213 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/css/argon-dashboard-tailwind.min.css HTTP/1.1" 200 -
+2025-09-12 16:26:05,228 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/img/logo-ct-dark.png HTTP/1.1" 200 -
+2025-09-12 16:26:05,232 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/img/logo-ct.png HTTP/1.1" 200 -
+2025-09-12 16:26:05,234 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/css/nucleo-icons.css HTTP/1.1" 200 -
+2025-09-12 16:26:05,345 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/img/kal-visuals-square.jpg HTTP/1.1" 200 -
+2025-09-12 16:26:05,382 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/img/f1.jpg HTTP/1.1" 200 -
+2025-09-12 16:26:05,419 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/img/f2.jpg HTTP/1.1" 200 -
+2025-09-12 16:26:05,495 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/plugins/perfect-scrollbar.min.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,501 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/argon-dashboard-tailwind.js?v=1.0.1 HTTP/1.1" 200 -
+2025-09-12 16:26:05,556 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/fixed-plugin.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,569 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/dropdown.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,609 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/navbar-collapse.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,609 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/nav-pills.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,629 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/sidenav-burger.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,637 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/perfect-scrollbar.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,651 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/tooltips.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,652 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/js/plugins/chartjs.min.js HTTP/1.1" 200 -
+2025-09-12 16:26:05,684 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:05] "GET /static/img/f3.jpg HTTP/1.1" 200 -
+2025-09-12 16:26:06,116 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:06] "GET /static/js/navbar-sticky.js HTTP/1.1" 200 -
+2025-09-12 16:26:06,122 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:06] "GET /static/js/carousel.js HTTP/1.1" 200 -
+2025-09-12 16:26:06,345 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:06] "GET /static/fonts/nucleo-icons.woff2 HTTP/1.1" 200 -
+2025-09-12 16:26:07,304 - INFO - 127.0.0.1 - - [12/Sep/2025 16:26:07] "GET /static/img/favicon.png HTTP/1.1" 200 -
+2025-09-13 09:00:00,155 - DEBUG - Running job Job(interval=1, unit=days, do=send_daily_menu, args=(), kwargs={})
+2025-09-13 09:00:00,181 - DEBUG - Running job Job(interval=1, unit=days, do=send_daily_menu, args=(), kwargs={})
+2025-09-13 09:10:53,726 - INFO -  * Detected change in '/Users/emeldamada/Documents/Restaurant_P_O_C/db.py', reloading
+2025-09-13 09:10:55,852 - INFO -  * Restarting with stat
