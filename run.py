@@ -8,7 +8,6 @@ from flask import Flask, request, session, jsonify, json, make_response
 import requests
 from flask_session import Session
 from datetime import datetime, timedelta
-import psycopg2
 from dotenv import load_dotenv
 #import spacy
 import traceback
@@ -34,7 +33,7 @@ from rating import process_order_rating_flow, process_reservation_rating_flow
 from customers import get_customer_name
 from db import log_conversation
 from menu import send_daily_menu
-from config import bcrypt
+from config import bcrypt, META_ACCESS_TOKEN, META_PHONE_NUMBER_ID, OPENAI_API_KEY, ADMIN_NUMBER,   VERIFY_TOKEN
 from app import dash_blueprint
 
 
@@ -271,10 +270,11 @@ def whatsapp_webhook():
     """
     
     if request.method == 'GET':
-        verify_token = os.getenv('VERIFY_TOKEN')
+        verify_token = VERIFY_TOKEN
         hub_mode = request.args.get('hub.mode')
         hub_token = request.args.get('hub.verify_token')
         hub_challenge = request.args.get('hub.challenge')
+        logging.info(f"This is the  verification code : {VERIFY_TOKEN}")
 
         logging.info(f"Received verification: mode={hub_mode}, token={hub_token}")
 
@@ -291,8 +291,8 @@ def whatsapp_webhook():
         
     # ✅ WhatsApp Message Handling
     elif request.method == 'POST':
-        meta_phone_number_id = os.getenv('META_PHONE_NUMBER_ID')  # Ensure the environment variable is set
-        meta_access_token = os.getenv('META_ACCESS_TOKEN')  # Ensure the environment variable is set
+        meta_phone_number_id = META_PHONE_NUMBER_ID  # Ensure the environment variable is set
+        meta_access_token = META_ACCESS_TOKEN  # Ensure the environment variable is set
         url = f"https://graph.facebook.com/v13.0/{meta_phone_number_id}/messages"
 
         try:
@@ -338,27 +338,30 @@ def whatsapp_webhook():
                     logging.info(f"✅ Extracted reservation rating: {rating}")
 
                     if 1 <= rating <= 5:
-                        conn = get_db_connection()
-                        if not conn:
-                            logging.error("❌ Database connection failed.")
-                            bot_reply = "Database connection failed. Please try again later."
+                        supabase = get_db_connection()
+                        if not supabase:
+                            logging.error("❌ Supabase connection failed.")
+                            bot_reply = "Supabase connection failed. Please try again later."
                         else:
                             try:
-                                cursor = conn.cursor()
-
                                 # Check if the user is rating a completed reservation
-                                cursor.execute('''
-                                    SELECT id FROM reservations 
-                                    WHERE contact_number = %s AND reservations_done = TRUE
-                                    ORDER BY created_at DESC LIMIT 1
-                                ''', (from_number,))
-                                reservation = cursor.fetchone()
+                                resp = supabase.table("reservations") \
+                                    .select("id") \
+                                    .eq("contact_number", from_number) \
+                                    .eq("reservations_done", True) \
+                                    .order("created_at", desc=True) \
+                                    .limit(1) \
+                                    .execute()
+                                reservation = resp.data[0] if hasattr(resp, "data") and resp.data else None
                                 logging.info(f"🔍 Fetched reservation: {reservation}")
+    
 
                                 if reservation:
                                     # Update the rating for the reservation
-                                    cursor.execute('UPDATE reservations SET rating = %s WHERE id = %s', (rating, reservation[0]))
-                                    conn.commit()
+                                    update_resp = supabase.table("reservations") \
+                                        .update({"rating": rating}) \
+                                        .eq("id", reservation[0]) \
+                                        .execute()
                                     logging.info(f"✅ Successfully committed reservation {reservation[0]} with rating {rating}")
 
                                     bot_reply = "Thank you for rating your reservation experience! 🌟 We hope to see you again soon."
@@ -370,14 +373,9 @@ def whatsapp_webhook():
                                         "Please ensure your reservation is marked as 'completed' before rating."
                                     )
 
-                            except psycopg2.Error as e:
+                            except Exception as e:
                                 bot_reply = "An error occurred while processing your rating. Please try again later."
-                                logging.error(f"❌ Database error: {e}")
-
-                            finally:
-                                cursor.close()
-                                conn.close()
-                                logging.info("🔚 Database connection closed.")
+                                logging.error(f"❌ Supabase error: {e}")
 
                     else:
                         logging.warning(f"⚠️ Invalid reservation rating received: {rating}")
@@ -403,28 +401,30 @@ def whatsapp_webhook():
                     logging.info(f"✅ Extracted rating: {rating}")
 
                     if 1 <= rating <= 5:
-                        conn = get_db_connection()
-                        if not conn:
-                            logging.error("❌ Database connection failed.")
-                            bot_reply = "Database connection failed. Please try again later."
+                        supabase = get_db_connection()
+                        if not supabase:
+                            logging.error("❌ Supabase connection failed.")
+                            bot_reply = "Supabase connection failed. Please try again later."
                         else:
                             try:
-                                cursor = conn.cursor()
-
                                 # Check if the user is rating a completed order
-                                cursor.execute('''
-                                    SELECT id FROM orders 
-                                    WHERE contact_number = %s AND status = 'done' 
-                                    ORDER BY created_at DESC LIMIT 1
-                                ''', (from_number,))
-                                order = cursor.fetchone()
+                                resp = supabase.table("orders") \
+                                    .select("id") \
+                                    .eq("contact_number", from_number) \
+                                    .eq("status", "done") \
+                                    .order("created_at", desc=True) \
+                                    .limit(1) \
+                                    .execute()
+                                order = resp.data[0] if hasattr(resp, "data") and resp.data else None
                                 logging.info(f"🔍 Fetched order: {order}")
 
                                 if order:
                                     # Update the rating for the order
-                                    cursor.execute('UPDATE orders SET rating = %s WHERE id = %s', (rating, order[0]))
-                                    conn.commit()
-                                    logging.info(f"✅ Successfully committed order {order[0]} with rating {rating}")
+                                    update_resp = supabase.table("orders") \
+                                        .update({"rating": rating}) \
+                                        .eq("id", order["id"]) \
+                                        .execute()
+                                    logging.info(f"✅ Successfully updated order {order['id']} with rating {rating}")
 
                                     bot_reply = "Thank you for rating your order experience! 🌟 We hope to see you again soon."
                                 
@@ -435,14 +435,9 @@ def whatsapp_webhook():
                                         "Please ensure your order is marked as 'completed' before rating."
                                     )
 
-                            except psycopg2.Error as e:
+                            except Exception as e:
                                 bot_reply = "An error occurred while processing your rating. Please try again later."
-                                logging.error(f"❌ Database error: {e}")
-
-                            finally:
-                                cursor.close()
-                                conn.close()
-                                logging.info("🔚 Database connection closed.")
+                                logging.error(f"❌ Supabase error: {e}")
 
                     else:
                         logging.warning(f"⚠️ Invalid rating received: {rating}")
@@ -709,28 +704,23 @@ def whatsapp_webhook():
 
                     if unavailable_items:
                         # ❌ Inform the user about unavailable items and suggest alternatives
-                        conn = get_db_connection()
-                        if not conn:
-                            bot_reply = "Database connection failed. Please try again later."
+                        supabase = get_db_connection()
+                        if not supabase:
+                            bot_reply = "Supabase connection failed. Please try again later."
                         else:
                             try:
-                                cursor = conn.cursor()
-                                cursor.execute("SELECT item_name FROM menu WHERE available = TRUE")
-                                menu_items = [row[0] for row in cursor.fetchall()]
-                                
+                                resp = supabase.table("menu").select("item_name").eq("available", True).execute()
+                                menu_items = [row["item_name"] for row in resp.data] if hasattr(resp, "data") and resp.data else []
+
                                 logging.info(f"❌ Unavailable Items: {unavailable_items}")
                                 bot_reply = (
                                     f"❌ The following items are not available: {', '.join(unavailable_items)}.\n"
                                     "Here’s what we currently have on our menu:\n"
                                     f"{', '.join(menu_items)}\n Please resend your order form with the corrected menu item"
                                 )
-                            except psycopg2.Error as e:
-                                logging.error(f"Database error: {e}")
+                            except Exception as e:
+                                logging.error(f"Supabase error: {e}")
                                 bot_reply = "An error occurred while checking item availability. Please try again later."
-                            finally:
-                                cursor.close()
-                                conn.close()
-
                     else:
                         # ✅ Save the order based on delivery status
                         if delivery_status == "no":

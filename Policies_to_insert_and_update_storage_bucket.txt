@@ -1,0 +1,10 @@
+CREATE POLICY "Allow anyone to upload - insert" ON storage.objects
+FOR INSERT
+TO anon, authenticated
+WITH CHECK (bucket_id = 'leya-menu-items');
+
+CREATE POLICY "Allow anyone to upload - update" ON storage.objects
+FOR UPDATE
+TO anon, authenticated
+USING (bucket_id = 'leya-menu-items')
+WITH CHECK (bucket_id = 'leya-menu-items');

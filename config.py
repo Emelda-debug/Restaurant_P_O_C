@@ -22,6 +22,7 @@ logging.basicConfig(
 META_PHONE_NUMBER_ID = os.getenv('META_PHONE_NUMBER_ID')
 META_ACCESS_TOKEN = os.getenv('META_ACCESS_TOKEN')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
 # Admin number to send periodic updates
 ADMIN_NUMBER = os.getenv('ADMIN_NUMBER')
 

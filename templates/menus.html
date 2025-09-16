@@ -304,24 +304,24 @@
 
                    <tbody>
    {% for menu in menus %}
-          <tr class="{% if menu[5] == 1 %}bg-green-100 dark:bg-emerald-900/20{% endif %}">
-            <td class="px-6 py-3">{{ menu[0] }}</td>
-            <td class="px-6 py-3">{{ menu[1] }}</td>
-            <td class="px-6 py-3">{{ menu[2] }}</td>
-            <td class="px-6 py-3">${{ menu[3] }}</td>
-            <td class="px-6 py-3">{{ "Yes" if menu[4] == 1 else "No" }}</td>
+          <tr class="{% if menu['highlight'] %}bg-green-100 dark:bg-emerald-900/20{% endif %}">
+            <td class="px-6 py-3">{{ menu['id'] }}</td>
+            <td class="px-6 py-3">{{ menu['category'] }}</td>
+            <td class="px-6 py-3">{{ menu['item_name'] }}</td>
+            <td class="px-6 py-3">${{ menu['price'] }}</td>
+            <td class="px-6 py-3">{{ "Yes" if menu['available'] else "No" }}</td>
              <td class="px-6 py-3">
-              {% if menu[6] %}
-                <img src="{{ menu[6] }}" alt="{{ menu[1] }}" width="100">
+              {% if menu['image'] %}
+                <img src="{{ menu['image'] }}" alt="{{ menu['item_name'] }}" width="100">
               {% else %}
                 No image
               {% endif %}
             </td>
             <td class="px-6 py-3 text-center">
-            {% if menu[5] == 1 %}
+            {% if menu['highlight'] %}
               <span style="background-color: #10b981; color: #ffffff; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-weight: 600;">Highlighted</span>
             {% else %}
-              <form action="{{ url_for('dash.set_highlight', menu_id=menu[0]) }}" method="post" style="display:inline;">
+              <form action="{{ url_for('dash.set_highlight', menu_id=menu['id']) }}" method="post" style="display:inline;">
                 <button type="submit"
                   style="background-color: #facc15; color: #1f2937; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.25rem; border: none; cursor: pointer;">
                   Set as Highlight
@@ -330,7 +330,7 @@
             {% endif %}
           </td>
             <td class="px-6 py-3 text-center">
-              <form action="{{ url_for('dash.delete_menu_item', menu_id=menu[0]) }}" method="post" style="display:inline;">
+              <form action="{{ url_for('dash.delete_menu_item', menu_id=menu['id']) }}" method="post" style="display:inline;">
                 <button type="submit"
                   style="background-color: #ef4444; color: #ffffff; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.25rem; border: none; cursor: pointer;">Delete</button>
               </form>

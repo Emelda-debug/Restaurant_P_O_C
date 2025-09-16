@@ -275,7 +275,7 @@ def menus():
                     try:
                         from supabase_handling import upload_image_to_supabase, list_buckets, check_bucket_exists
                         list_buckets()
-                        check_bucket_exists("taguta-menu-items")
+                        check_bucket_exists("leya-menu-items")
                         image_url = upload_image_to_supabase(image_file)
                     except Exception as e:
                         logging.error(f"Main app upload error: {str(e)}")
@@ -437,7 +437,7 @@ def set_highlight(menu_id):
 
     try:
         # Reset all highlights
-        supabase.table("menu").update({"highlight": False}).execute()
+        supabase.table("menu").update({"highlight": False}).gte("id", 0).execute()
 
         # Set the selected item as the highlight
         supabase.table("menu").update({"highlight": True}).eq("id", menu_id).execute()
@@ -445,7 +445,7 @@ def set_highlight(menu_id):
         logging.error(f"Supabase error while setting highlight: {e}")
         return "There was an issue setting the highlight. Please try again later."
 
-    return redirect(url_for('menus'))
+    return redirect(url_for('dash.menus'))
 
 
 @dash_blueprint.route('/reservations')

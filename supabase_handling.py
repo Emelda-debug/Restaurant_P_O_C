@@ -28,15 +28,15 @@ def upload_image_to_supabase(file):
         content_type = file.content_type or "image/jpeg"
         
         logger.info(f"File size: {len(file_data)} bytes, Content type: {content_type}")
-        logger.info(f"Attempting upload to bucket: taguta-menu-images")
+        logger.info(f"Attempting upload to bucket: leya-menu-items")
         
         # Upload image to Supabase
-        result = supabase.storage.from_("taguta-menu-items").upload(path, file_data, {"content-type": content_type})
+        result = supabase.storage.from_("leya-menu-items").upload(path, file_data, {"content-type": content_type})
         
         logger.info(f"Upload successful: {result}")
         
         # Build public URL
-        public_url = f"{SUPABASE_URL}/storage/v1/object/public/taguta-menu-items/{path}"
+        public_url = f"{SUPABASE_URL}/storage/v1/object/public/leya-menu-items/{path}"
         logger.info(f"Generated public URL: {public_url}")
         
         return public_url
