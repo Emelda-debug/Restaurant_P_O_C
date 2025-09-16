@@ -59,6 +59,9 @@ class AdminUser(db.Model):
 
     username = db.Column(db.String(255), primary_key=True)
     password_hash = db.Column(db.Text, nullable=False)
+    profile_image = db.Column(db.String(255))  # New column for profile image URL
+    role = db.Column(db.String(50), nullable=False, default='user')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # New column for account creation timestamp
 
 
 class MenuItem(db.Model):

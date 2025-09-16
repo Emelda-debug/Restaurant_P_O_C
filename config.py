@@ -17,12 +17,17 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+
 # Set up environment variables for Meta API
-os.environ['META_PHONE_NUMBER_ID'] 
-os.environ['META_ACCESS_TOKEN']
-os.environ['OPENAI_API_KEY'] 
+META_PHONE_NUMBER_ID = os.getenv('META_PHONE_NUMBER_ID')
+META_ACCESS_TOKEN = os.getenv('META_ACCESS_TOKEN')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 # Admin number to send periodic updates
 ADMIN_NUMBER = os.getenv('ADMIN_NUMBER')
+
+# Supabase configuration
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
 
 
 

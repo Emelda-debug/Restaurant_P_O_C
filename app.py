@@ -53,8 +53,7 @@ def notify_user(contact_number, message):
 
 
 
-import logging
-import bcrypt
+
 
 
 def verify_password(username, password):
@@ -64,6 +63,7 @@ def verify_password(username, password):
     if not supabase:
         logging.debug("Debug: Supabase client is None, returning False")
         return False
+
 
     try:
         response = supabase.table("admin_users") \
@@ -78,7 +78,7 @@ def verify_password(username, password):
             logging.debug("Debug: No user found or missing password hash")
             return False
 
-        if bcrypt.checkpw(password.encode(), user["password_hash"].encode()):
+        if bcrypt.check_password_hash(user["password_hash"], password):
             logging.info("Debug: Password verification successful")
             return True
         else:
@@ -107,6 +107,17 @@ def login():
         if verify_password(username, password):
             logging.debug("Debug: Authentication successful, setting session and redirecting")
             session['user'] = username
+            # Fetch and log user role
+            try:
+                supabase = get_db_connection()
+                if supabase:
+                    resp = supabase.table("admin_users").select("role").eq("username", username).single().execute()
+                    user_role = resp.data["role"] if hasattr(resp, "data") and resp.data and "role" in resp.data else None
+                    logging.info(f"Debug: User '{username}' logged in with role: '{user_role}'")
+                else:
+                    logging.warning("Debug: Could not fetch user role, Supabase connection failed.")
+            except Exception as e:
+                logging.error(f"Debug: Exception while fetching user role for '{username}': {e}")
             return redirect(url_for('dash.dashboard'))
         else:
             logging.error("Authentication failed, rendering login page with error")
@@ -126,6 +137,9 @@ def dashboard():
         return redirect(url_for('dash.login'))
 
     supabase = get_db_connection()
+    if not supabase:
+        return render_template("d.html", error="Database connection failed")
+
     user_profile_image = None
     monthly_orders = []
     total_orders = 0
@@ -213,43 +227,39 @@ def menus():
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
+    menus = []
     try:
-        cursor = conn.cursor()
-
         if request.method == 'POST':
             file = request.files.get('file')
 
             if file and file.filename.endswith('.xlsx'):
                 try:
                     df = pd.read_excel(file, engine='openpyxl')
-
                     required_columns = {'Category', 'Item Name', 'Price', 'Available'}
                     if required_columns.issubset(df.columns):
+                        rows_to_insert = []
                         for _, row in df.iterrows():
                             if pd.isna(row['Category']) or pd.isna(row['Item Name']) or pd.isna(row['Price']) or pd.isna(row['Available']):
                                 logging.info(f"Skipping row due to missing data: {row}")
                                 continue  # Skip this row
-
                             category = row['Category']
                             item_name = row['Item Name']
                             price = row['Price']
-                            available = bool(row['Available'])  # Convert to boolean (True/False)
-
-                            # Insert new menu item only if it doesn't exist
-                            cursor.execute('''
-                                INSERT INTO menu (category, item_name, price, available)
-                                VALUES (%s, %s, %s, %s)
-                                ON CONFLICT (item_name) DO NOTHING
-                            ''', (category, item_name, price, available))
-
-                        conn.commit()
+                            available = bool(row['Available'])
+                            rows_to_insert.append({
+                                "category": category,
+                                "item_name": item_name,
+                                "price": price,
+                                "available": available
+                            })
+                        if rows_to_insert:
+                            supabase.table("menu").upsert(rows_to_insert, on_conflict=["item_name"]).execute()
                     else:
                         logging.error("Error: Missing required columns (Category, Item Name, Price, Available)")
-
                 except Exception as e:
                     logging.error(f"Error processing Excel file: {e}")
 
@@ -271,23 +281,25 @@ def menus():
                         logging.error(f"Main app upload error: {str(e)}")
                         logging.error(f"Full traceback: {traceback.format_exc()}")
 
-                cursor.execute('''
-                    INSERT INTO menu (category, item_name, price, available, image_url)
-                    VALUES (%s, %s, %s, %s, %s)
-                    ON CONFLICT (item_name) DO NOTHING
-                ''', (category, item_name, price, available, image_url))
-                conn.commit()
+                row = {
+                    "category": category,
+                    "item_name": item_name,
+                    "price": price,
+                    "available": available
+                }
+                if image_url:
+                    row["image_url"] = image_url
+                try:
+                    supabase.table("menu").upsert([row], on_conflict=["item_name"]).execute()
+                except Exception as e:
+                    logging.error(f"Error inserting menu item: {e}")
 
-        cursor.execute('SELECT * FROM menu')
-        menus = cursor.fetchall()
-
-    except psycopg2.Error as e:
-        logging.error(f"Database error while fetching menu items: {e}")
+        # Fetch all menu items
+        resp = supabase.table("menu").select("*").execute()
+        menus = resp.data if hasattr(resp, "data") and resp.data else []
+    except Exception as e:
+        logging.error(f"Supabase error while fetching menu items: {e}")
         menus = []
-
-    finally:
-        cursor.close()
-        conn.close()
 
     return render_template('menus.html', menus=menus)
 
@@ -302,50 +314,43 @@ def edit_menu(menu_id):
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
+    # Get form data
+    category = request.form.get('category')
+    item_name = request.form.get('item_name')
+    price = request.form.get('price')
+    available = bool(int(request.form.get('available', 1)))
+    image_file = request.files.get('image')
+    image_url = None
+
+    # If a new image is uploaded, handle upload
+    if image_file and image_file.filename != '':
+        try:
+            from supabase_handling import upload_image_to_supabase, list_buckets, check_bucket_exists
+            list_buckets()
+            check_bucket_exists("taguta-menu-items")
+            image_url = upload_image_to_supabase(image_file)
+        except Exception as e:
+            logging.error(f"Edit menu upload error: {str(e)}")
+            logging.error(f"Full traceback: {traceback.format_exc()}")
+
+    # Build the update data
+    update_data = {
+        "category": category,
+        "item_name": item_name,
+        "price": price,
+        "available": available
+    }
+    if image_url:
+        update_data["image_url"] = image_url
+
     try:
-        cursor = conn.cursor()
-        # Get form data
-        category = request.form.get('category')
-        item_name = request.form.get('item_name')
-        price = request.form.get('price')
-        available = bool(int(request.form.get('available', 1)))
-        image_file = request.files.get('image')
-        image_url = None
-
-        # If a new image is uploaded, handle upload
-        if image_file and image_file.filename != '':
-            try:
-                from supabase_handling import upload_image_to_supabase, list_buckets, check_bucket_exists
-                list_buckets()
-                check_bucket_exists("taguta-menu-items")
-                image_url = upload_image_to_supabase(image_file)
-            except Exception as e:
-                logging.error(f"Edit menu upload error: {str(e)}")
-                logging.error(f"Full traceback: {traceback.format_exc()}")
-
-        # Build the update query
-        if image_url:
-            cursor.execute('''
-                UPDATE menu
-                SET category=%s, item_name=%s, price=%s, available=%s, image_url=%s
-                WHERE id=%s
-            ''', (category, item_name, price, available, image_url, menu_id))
-        else:
-            cursor.execute('''
-                UPDATE menu
-                SET category=%s, item_name=%s, price=%s, available=%s
-                WHERE id=%s
-            ''', (category, item_name, price, available, menu_id))
-        conn.commit()
-    except psycopg2.Error as e:
-        logging.error(f"Database error while editing menu item: {e}")
-    finally:
-        cursor.close()
-        conn.close()
+        supabase.table("menu").update(update_data).eq("id", menu_id).execute()
+    except Exception as e:
+        logging.error(f"Supabase error while editing menu item: {e}")
 
     return redirect(url_for('dash.menus'))
 
@@ -358,8 +363,8 @@ def conversations():
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     # Get filter parameters
@@ -369,60 +374,33 @@ def conversations():
     end_date = request.args.get('end_date', '')
 
     try:
-        cursor = conn.cursor()
-
-        # Fetch all messages without relying on SQL JOIN for names
-        query = """
-            SELECT from_number, message, bot_reply, timestamp 
-            FROM restaurant
-        """
-        conditions = []
-        params = []
-
+        # Build Supabase query
+        query = supabase.table("restaurant").select("from_number, message, bot_reply, timestamp")
         if phone_filter:
-            conditions.append("from_number LIKE %s")
-            params.append(f"%{phone_filter}%")  # Allow partial search
-
-    
+            query = query.ilike("from_number", f"%{phone_filter}%")
         if start_date and end_date:
-            conditions.append("DATE(timestamp) BETWEEN %s AND %s")
-            params.append(start_date)
-            params.append(end_date)
-
-        if conditions:
-            query += " WHERE " + " AND ".join(conditions)
-
-        query += " ORDER BY from_number, timestamp ASC"
-
-        cursor.execute(query, params)
-        raw_messages = cursor.fetchall()
+            query = query.gte("timestamp", start_date).lte("timestamp", end_date)
+        query = query.order("from_number", desc=False).order("timestamp", desc=False)
+        resp = query.execute()
+        raw_messages = resp.data if hasattr(resp, "data") and resp.data else []
 
         transcripts = {}
-
-        if raw_messages:
-            for msg in raw_messages:
-                phone_number = msg[0]
-                customer_name = get_customer_name(phone_number)  # Fetch name using function
-
-                # Apply name filter in Python instead of SQL
-                if name_filter and name_filter not in customer_name.lower():
-                    continue  # Skip this conversation if name does not match
-                
-                if phone_number not in transcripts:
-                    transcripts[phone_number] = {"name": customer_name, "messages": []}
-                transcripts[phone_number]["messages"].append({
-                    "message": msg[1],
-                    "bot_reply": msg[2],
-                    "timestamp": msg[3]
-                })
-
-    except psycopg2.Error as e:
-        logging.error(f"Database error while fetching conversations: {e}")
+        for msg in raw_messages:
+            phone_number = msg.get("from_number")
+            customer_name = get_customer_name(phone_number)  # Fetch name using function
+            # Apply name filter in Python instead of SQL
+            if name_filter and name_filter not in customer_name.lower():
+                continue  # Skip this conversation if name does not match
+            if phone_number not in transcripts:
+                transcripts[phone_number] = {"name": customer_name, "messages": []}
+            transcripts[phone_number]["messages"].append({
+                "message": msg.get("message"),
+                "bot_reply": msg.get("bot_reply"),
+                "timestamp": msg.get("timestamp")
+            })
+    except Exception as e:
+        logging.error(f"Supabase error while fetching conversations: {e}")
         transcripts = {}
-
-    finally:
-        cursor.close()
-        conn.close()
 
     return render_template('conversations.html', transcripts=transcripts, phone_filter=phone_filter, name_filter=name_filter, start_date=start_date, end_date=end_date)
 
@@ -432,20 +410,15 @@ def delete_menu_item(menu_id):
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM menu WHERE id = %s', (menu_id,))
-        conn.commit()
-    except psycopg2.Error as e:
-        logging.error(f"Database error while deleting menu item: {e}")
+        supabase.table("menu").delete().eq("id", menu_id).execute()
+    except Exception as e:
+        logging.error(f"Supabase error while deleting menu item: {e}")
         return "An error occurred while deleting the menu item.", 500
-    finally:
-        cursor.close()
-        conn.close()
 
     return redirect(url_for('dash.menus'))
 
@@ -458,26 +431,19 @@ def set_highlight(menu_id):
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-
         # Reset all highlights
-        cursor.execute('UPDATE menu SET highlight = FALSE')
+        supabase.table("menu").update({"highlight": False}).execute()
 
         # Set the selected item as the highlight
-        cursor.execute('UPDATE menu SET highlight = TRUE WHERE id = %s', (menu_id,))
-
-        conn.commit()
-    except psycopg2.Error as e:
-        logging.error(f"Database error while setting highlight: {e}")
+        supabase.table("menu").update({"highlight": True}).eq("id", menu_id).execute()
+    except Exception as e:
+        logging.error(f"Supabase error while setting highlight: {e}")
         return "There was an issue setting the highlight. Please try again later."
-    finally:
-        cursor.close()
-        conn.close()
 
     return redirect(url_for('menus'))
 
@@ -490,22 +456,19 @@ def reservations():
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM reservations WHERE reservations_done = FALSE')
-        reservations = cursor.fetchall()
-
-    except psycopg2.Error as e:
-        logging.error(f"Database error while fetching reservations: {e}")
+        resp = supabase.table("reservations") \
+            .select("*") \
+            .eq("reservations_done", False) \
+            .execute()
+        reservations = resp.data if hasattr(resp, "data") and resp.data else []
+    except Exception as e:
+        logging.error(f"Supabase error while fetching reservations: {e}")
         reservations = []
-
-    finally:
-        cursor.close()
-        conn.close()
 
     return render_template('reservations.html', reservations=reservations)
 
@@ -517,29 +480,34 @@ def free_table(reservation_id):
     """
     Free up a table after a reservation is completed.
     """
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-
         # Get table number and contact number from the reservation
-        cursor.execute('SELECT table_number, contact_number FROM reservations WHERE id = %s', (reservation_id,))
-        reservation = cursor.fetchone()
-
+        reservation_resp = supabase.table("reservations") \
+            .select("table_number, contact_number") \
+            .eq("id", reservation_id) \
+            .single() \
+            .execute()
+        reservation = reservation_resp.data if hasattr(reservation_resp, "data") else None
         if not reservation:
             return "Reservation not found.", 404
-        
-        table_number, contact_number = reservation
+        table_number = reservation.get("table_number")
+        contact_number = reservation.get("contact_number")
 
         # Update the table's availability
-        cursor.execute('UPDATE restaurant_tables SET is_available = TRUE WHERE table_number = %s', (table_number,))
+        supabase.table("restaurant_tables") \
+            .update({"is_available": True}) \
+            .eq("table_number", table_number) \
+            .execute()
 
         # Mark reservation as done
-        cursor.execute('UPDATE reservations SET reservations_done = TRUE WHERE id = %s', (reservation_id,))
-
-        conn.commit()
+        supabase.table("reservations") \
+            .update({"reservations_done": True}) \
+            .eq("id", reservation_id) \
+            .execute()
 
         # 📩 Send Notification to Customer
         message = (
@@ -550,19 +518,15 @@ def free_table(reservation_id):
             "Reply with 'R Rate [1-5]' e.g. R Rate 4.\n"
             "Else, use the form to rate your experience"
         )
-        flow_cta = "Rate Your Reservation Experience"  
+        flow_cta = "Rate Your Reservation Experience"
         flow_name = "reservation_rating"
 
         flow_response = trigger_whatsapp_flow(contact_number, message, flow_cta, flow_name)
         logging.debug(f"🔍 Flow Trigger Debug - User: {contact_number}, Response: {flow_response}")
 
-    except psycopg2.Error as e:
-        logging.error(f"Database error: {e}")
+    except Exception as e:
+        logging.error(f"Supabase error: {e}")
         return "Error freeing table.", 500
-
-    finally:
-        cursor.close()
-        conn.close()
 
     return redirect(url_for('reservations'))
 
@@ -573,21 +537,19 @@ def orders():
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM orders WHERE status IN (%s, %s)', ('received', 'in-transit'))
-        orders = cursor.fetchall()
-    except psycopg2.Error as e:
-        logging.error(f"Database error while fetching orders: {e}")
+        response = supabase.table("orders") \
+            .select("*") \
+            .in__("status", ["received", "in-transit"]) \
+            .execute
+        orders = response.data if hasattr(response, "data") else []
+    except Exception as e:
+        logging.error(f"Supabase error while fetching orders: {e}")
         orders = []
-    finally:
-        cursor.close()
-        conn.close()
-
     return render_template('orders.html', orders=orders)
 
 
@@ -598,38 +560,37 @@ def mark_order_done(order_id):
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-        cursor.execute('UPDATE orders SET status = %s WHERE id = %s', ('done', order_id))
-        conn.commit()
-
-        cursor.execute('SELECT contact_number, order_details FROM orders WHERE id = %s', (order_id,))
-        order = cursor.fetchone()
-
-        if order:
-            contact_number, order_details = order
-            message = (
-                f"Your order for '{order_details}' has been marked as done. "
-                "Thank you for choosing Star Restaurant! 🌟\n\n"
-                "We value your feedback! Please rate your experience below."
-            )
+        response = supabase.table("orders") \
+            .select("* ")\
+            .eq("id", order_id) \
+            .single() \
+            .execute() \
             
-            flow_cta = "Rate Your Ordering Experience"  
-            flow_name = "order_rating"
-
+        order = response.data if hasattr(response, "data") else None
+        if not order:
+            return "Order not found.", 404 
+        contact_number = order.get("contact_number")
+        order_details = order.get("order_details")
+        status = order.get("status")
+        if status == "done":
+            return redirect(url_for('dash.orders'))  # Already done, no action needed
+        message = (
+            f"Your order for '{order_details}' has been marked as done. "
+            "Thank you for choosing Leya Restaurant! 🌟\n\n"
+            "We value your feedback! Please rate your experience below."
+        )
+        flow_cta = "Rate Your Ordering Experience"
+        flow_name = "order_rating"
         flow_response = trigger_whatsapp_flow(contact_number, message, flow_cta, flow_name)
         logging.debug(f"🔍 Flow Trigger Debug - User: {contact_number}, Response: {flow_response}")
-
-    except psycopg2.Error as e:
-        logging.error(f"Database error while updating order: {e}")
+    except Exception as e:
+        logging.error(f"Supabase error while fetching order: {e}")
         return "Error marking the order as done.", 500
-    finally:
-        cursor.close()
-        conn.close()
 
     return redirect(url_for('orders'))
 
@@ -642,39 +603,49 @@ def ratings():
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-
         # Fetch ratings for orders
-        cursor.execute('''
-            SELECT id, contact_number, order_details AS details, rating, 'Order' AS type 
-            FROM orders 
-            WHERE rating IS NOT NULL
-        ''')
-        order_ratings = cursor.fetchall()
+        order_resp = supabase.table("orders") \
+            .select("id, contact_number, order_details, rating") \
+            .not_.is_("rating", None) \
+            .execute()
+        order_ratings = []
+        if hasattr(order_resp, "data") and order_resp.data:
+            for row in order_resp.data:
+                order_ratings.append({
+                    "id": row.get("id"),
+                    "contact_number": row.get("contact_number"),
+                    "details": row.get("order_details"),
+                    "rating": row.get("rating"),
+                    "type": "Order"
+                })
 
         # Fetch ratings for reservations
-        cursor.execute('''
-            SELECT id, contact_number, name AS details, rating, 'Reservation' AS type 
-            FROM reservations 
-            WHERE rating IS NOT NULL
-        ''')
-        reservation_ratings = cursor.fetchall()
+        reservation_resp = supabase.table("reservations") \
+            .select("id, contact_number, name, rating") \
+            .not_.is_("rating", None) \
+            .execute()
+        reservation_ratings = []
+        if hasattr(reservation_resp, "data") and reservation_resp.data:
+            for row in reservation_resp.data:
+                reservation_ratings.append({
+                    "id": row.get("id"),
+                    "contact_number": row.get("contact_number"),
+                    "details": row.get("name"),
+                    "rating": row.get("rating"),
+                    "type": "Reservation"
+                })
 
         # Combine both lists into one
-        ratings = order_ratings + reservation_ratings  
+        ratings = order_ratings + reservation_ratings
 
-    except psycopg2.Error as e:
-        logging.error(f"Database error while fetching ratings: {e}")
+    except Exception as e:
+        logging.error(f"Supabase error while fetching ratings: {e}")
         ratings = []
-
-    finally:
-        cursor.close()
-        conn.close()
 
     return render_template('ratings.html', ratings=ratings)
 
@@ -689,33 +660,33 @@ def mark_order_in_transit(order_id):
     if 'user' not in session:
         return redirect(url_for('dash.login'))
     
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-
         # Update the order status to 'in-transit'
-        cursor.execute("UPDATE orders SET status = %s WHERE id = %s", ('in-transit', order_id))
-        conn.commit()
-        
+        update_resp = supabase.table("orders") \
+            .update({"status": "in-transit"}) \
+            .eq("id", order_id) \
+            .execute()
+
         # Retrieve contact number and order details
-        cursor.execute("SELECT contact_number, order_details FROM orders WHERE id = %s", (order_id,))
-        order = cursor.fetchone()
-        
+        order_resp = supabase.table("orders") \
+            .select("contact_number, order_details") \
+            .eq("id", order_id) \
+            .single() \
+            .execute()
+        order = order_resp.data if hasattr(order_resp, "data") else None
         if order:
-            contact_number, order_details = order
+            contact_number = order.get("contact_number")
+            order_details = order.get("order_details")
             message = f"Your order for '{order_details}' is now in transit. Expect it shortly!"
             notify_user(contact_number, message)
 
-    except psycopg2.Error as e:
-        logging.error(f"Database error while updating order: {e}")
+    except Exception as e:
+        logging.error(f"Supabase error while updating order: {e}")
         return "Error marking the order as in-transit.", 500
-
-    finally:
-        cursor.close()
-        conn.close()
 
     return redirect(url_for('orders'))
 
@@ -729,36 +700,34 @@ def contacts():
     if 'user' not in session:
         return redirect(url_for('dash.login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-
         if request.method == 'POST':
             file = request.files.get('file')
 
             if file and file.filename.endswith('.xlsx'):
                 try:
                     df = pd.read_excel(file, engine='openpyxl')
-                    
                     if {'Name', 'Contact Number'}.issubset(df.columns):
+                        rows_to_insert = []
                         for _, row in df.iterrows():
                             name = row['Name']
                             contact_number = row['Contact Number']
                             status = 'new'
-
-                            cursor.execute('''
-                                INSERT INTO customers (name, contact_number, status)
-                                VALUES (%s, %s, %s)
-                                ON CONFLICT (contact_number) DO NOTHING
-                            ''', (name, contact_number, status))
-
-                        conn.commit()
+                            if pd.isna(name) or pd.isna(contact_number):
+                                continue
+                            rows_to_insert.append({
+                                "name": name,
+                                "contact_number": contact_number,
+                                "status": status
+                            })
+                        if rows_to_insert:
+                            supabase.table("customers").upsert(rows_to_insert, on_conflict=["contact_number"]).execute()
                     else:
                         logging.error("Error: Missing required columns (Name, Contact Number)")
-                
                 except Exception as e:
                     logging.error(f"Error processing Excel file: {e}")
 
@@ -766,24 +735,20 @@ def contacts():
                 name = request.form['name']
                 contact_number = request.form['contact_number']
                 status = 'new'
+                try:
+                    supabase.table("customers").upsert([
+                        {"name": name, "contact_number": contact_number, "status": status}
+                    ], on_conflict=["contact_number"]).execute()
+                except Exception as e:
+                    logging.error(f"Error inserting contact: {e}")
 
-                cursor.execute('''
-                    INSERT INTO customers (name, contact_number, status)
-                    VALUES (%s, %s, %s)
-                    ON CONFLICT (contact_number) DO NOTHING
-                ''', (name, contact_number, status))
-                conn.commit()
+        # Fetch all contacts
+        resp = supabase.table("customers").select("name, contact_number, status").execute()
+        contacts = resp.data if hasattr(resp, "data") and resp.data else []
 
-        cursor.execute('SELECT name, contact_number, status FROM customers')
-        contacts = cursor.fetchall()
-
-    except psycopg2.Error as e:
-        logging.error(f"Database error while fetching contacts: {e}")
+    except Exception as e:
+        logging.error(f"Supabase error while fetching contacts: {e}")
         contacts = []
-
-    finally:
-        cursor.close()
-        conn.close()
 
     return render_template('contacts.html', contacts=contacts)
 
@@ -801,27 +766,21 @@ def logout():
 @dash_blueprint.route('/contacts/delete/<contact_number>', methods=['POST'])
 def delete_contact(contact_number):
     """
-    Delete a contact by its contact number.
+    Delete a contact by its contact number using Supabase.
     """
     if 'user' not in session:
         return redirect(url_for('dash.login'))
-    
-    conn = get_db_connection()
-    if not conn:
+
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM customers WHERE contact_number = %s", (contact_number,))
-        conn.commit()
-
-    except psycopg2.Error as e:
-        logging.error(f"Database error while deleting contact: {e}")
+        resp = supabase.table("customers").delete().eq("contact_number", contact_number).execute()
+        logging.debug(f"Debug: Supabase delete response for contact_number={contact_number}: {resp}")
+    except Exception as e:
+        logging.error(f"Supabase error while deleting contact: {e}")
         return "Error deleting the contact.", 500
-
-    finally:
-        cursor.close()
-        conn.close()
 
     return redirect(url_for('contacts'))
 
@@ -881,52 +840,40 @@ def delete_contact(contact_number):
 @dash_blueprint.route('/chat/<phone>')
 def chat_view(phone):
     """
-    Display individual chat conversation with bubble interface.
+    Display individual chat conversation with bubble interface using Supabase.
     """
     if 'user' not in session:
         return redirect(url_for('login'))
 
-    conn = get_db_connection()
-    if not conn:
+    supabase = get_db_connection()
+    if not supabase:
         return "Database connection failed", 500
 
     try:
-        cursor = conn.cursor()
-        
-        # Fetch messages for the specific phone number
-        cursor.execute("""
-            SELECT message, bot_reply, timestamp 
-            FROM restaurant 
-            WHERE from_number = %s 
-            ORDER BY timestamp ASC
-        """, (phone,))
-        
-        raw_messages = cursor.fetchall()
-        
+        resp = supabase.table("restaurant").select("message, bot_reply, timestamp").eq("from_number", phone).order("timestamp", desc=False).execute()
+        logging.debug(f"Debug: Supabase chat fetch response for phone={phone}: {resp}")
+        raw_messages = resp.data if hasattr(resp, "data") and resp.data else []
+
         # Format messages for template
         messages = []
         for msg in raw_messages:
             messages.append({
-                "message": msg[0],
-                "bot_reply": msg[1],
-                "timestamp": msg[2]
+                "message": msg.get("message"),
+                "bot_reply": msg.get("bot_reply"),
+                "timestamp": msg.get("timestamp")
             })
-        
+
         # Get customer name
         customer_name = get_customer_name(phone)
-        
+
         return render_template('chat.html', 
                              messages=messages, 
                              customer_name=customer_name, 
                              phone_number=phone)
 
-    except psycopg2.Error as e:
-        logging.error(f"Database error while fetching chat for {phone}: {e}")
+    except Exception as e:
+        logging.error(f"Supabase error while fetching chat for {phone}: {e}")
         return "Database error", 500
-
-    finally:
-        cursor.close()
-        conn.close()
 
 
 @dash_blueprint.route('/profile', methods=['GET', 'POST'])
@@ -941,85 +888,66 @@ def profile():
     error_message = None
     user_profile_image = None
 
+    supabase = get_db_connection()
+    if not supabase:
+        error_message = "Database connection failed"
+        return render_template('profile.html', success_message=success_message, error_message=error_message, user_profile_image=user_profile_image)
+
     # Get current user's profile image
-    conn = get_db_connection()
-    if conn:
-        try:
-            cursor = conn.cursor()
-            cursor.execute("SELECT profile_image FROM admin_users WHERE username = %s", (session['user'],))
-            result = cursor.fetchone()
-            if result and result[0]:
-                user_profile_image = result[0]
-        except Exception as e:
-            logging.error(f"Error fetching profile image: {e}")
-        finally:
-            cursor.close()
-            conn.close()
+    try:
+        resp = supabase.table("admin_users").select("profile_image").eq("username", session['user']).single().execute()
+        if hasattr(resp, "data") and resp.data and resp.data.get("profile_image"):
+            user_profile_image = resp.data["profile_image"]
+    except Exception as e:
+        logging.error(f"Error fetching profile image: {e}")
 
     if request.method == 'POST':
-        conn = get_db_connection()
-        if not conn:
-            error_message = "Database connection failed"
-        else:
-            try:
-                cursor = conn.cursor()
-                
-                # Handle password change
-                if 'change_password' in request.form:
-                    current_password = request.form['current_password']
-                    new_password = request.form['new_password']
-                    confirm_password = request.form['confirm_password']
-                    
-                    # Verify current password
-                    if not verify_password(session['user'], current_password):
-                        error_message = "Current password is incorrect"
-                    elif new_password != confirm_password:
-                        error_message = "New passwords do not match"
-                    elif len(new_password) < 6:
-                        error_message = "New password must be at least 6 characters long"
-                    else:
-                        # Update password
-                        new_password_hash = bcrypt.generate_password_hash(new_password).decode('utf-8')
-                        cursor.execute(
-                            "UPDATE admin_users SET password_hash = %s WHERE username = %s",
-                            (new_password_hash, session['user'])
-                        )
-                        conn.commit()
+        try:
+            # Handle password change
+            if 'change_password' in request.form:
+                current_password = request.form['current_password']
+                new_password = request.form['new_password']
+                confirm_password = request.form['confirm_password']
+
+                # Verify current password
+                if not verify_password(session['user'], current_password):
+                    error_message = "Current password is incorrect"
+                elif new_password != confirm_password:
+                    error_message = "New passwords do not match"
+                elif len(new_password) < 6:
+                    error_message = "New password must be at least 6 characters long"
+                else:
+                    # Update password
+                    new_password_hash = bcrypt.generate_password_hash(new_password).decode('utf-8')
+                    try:
+                        supabase.table("admin_users").update({"password_hash": new_password_hash}).eq("username", session['user']).execute()
                         success_message = "Password updated successfully"
-                
-                # Handle profile picture update
-                elif 'update_profile' in request.form:
-                    profile_image = request.files.get('profile_image')
-                    if profile_image and profile_image.filename:
-                        # Create uploads directory if it doesn't exist
-                        import os
-                        upload_dir = os.path.join('static', 'uploads')
-                        os.makedirs(upload_dir, exist_ok=True)
-                        
-                        # Save the file
-                        filename = f"profile_{session['user']}.{profile_image.filename.split('.')[-1]}"
-                        filepath = os.path.join(upload_dir, filename)
-                        profile_image.save(filepath)
-                        
-                        # Update database with new profile image path
-                        cursor.execute(
-                            "UPDATE admin_users SET profile_image = %s WHERE username = %s",
-                            (f"uploads/{filename}", session['user'])
-                        )
-                        conn.commit()
+                    except Exception as e:
+                        logging.error(f"Error updating password: {e}")
+                        error_message = "An error occurred while updating your password"
+
+            # Handle profile picture update
+            elif 'update_profile' in request.form:
+                profile_image = request.files.get('profile_image')
+                if profile_image and profile_image.filename:
+                    import os
+                    upload_dir = os.path.join('static', 'uploads')
+                    os.makedirs(upload_dir, exist_ok=True)
+                    filename = f"profile_{session['user']}.{profile_image.filename.split('.')[-1]}"
+                    filepath = os.path.join(upload_dir, filename)
+                    profile_image.save(filepath)
+                    try:
+                        supabase.table("admin_users").update({"profile_image": f"uploads/{filename}"}).eq("username", session['user']).execute()
                         success_message = "Profile picture updated successfully"
-                        
-                        # Update the user_profile_image variable for immediate display
                         user_profile_image = f"uploads/{filename}"
-                    else:
-                        error_message = "Please select a valid image file"
-                        
-            except Exception as e:
-                logging.error(f"Error updating profile: {e}")
-                error_message = "An error occurred while updating your profile"
-            finally:
-                cursor.close()
-                conn.close()
+                    except Exception as e:
+                        logging.error(f"Error updating profile image: {e}")
+                        error_message = "An error occurred while updating your profile image"
+                else:
+                    error_message = "Please select a valid image file"
+        except Exception as e:
+            logging.error(f"Error updating profile: {e}")
+            error_message = "An error occurred while updating your profile"
 
     return render_template('profile.html', 
                          success_message=success_message, 
@@ -1035,89 +963,72 @@ def add_user():
     if 'user' not in session:
         return redirect(url_for('dash.login'))
     
-    # Check if current user is admin
-    conn = get_db_connection()
-    if not conn:
+    # Check if current user is admin using Supabase
+    supabase = get_db_connection()
+    if not supabase:
         return redirect(url_for('dash.dashboard'))
-    
+
     user_role = None
     user_profile_image = None
-    
-
-    try:
-        cursor = conn.cursor()
-        cursor.execute("SELECT role, profi;e_image FROM admin_users WHERE username = %s", (session['user'],))
-        result = cursor.fetchone()
-        user_role = result[0] if result else 'user'
-        user_profile_image = result[1] if result and result[1] else None 
-
-        
-        if user_role != 'admin':
-            return redirect(url_for('dash.forbidden', user_role=user_role))
-            
-    except Exception as e:
-        logging.error(f"Error checking user role: {e}")
-        return redirect(url_for('dash.forbidden', user_role='user'))
-    finally:
-        cursor.close()
-        conn.close()
-
-    # Rest of your existing add_user code...
     success_message = None
     error_message = None
     users = []
 
+    try:
+        resp = supabase.table("admin_users").select("role, profile_image").eq("username", session['user']).single().execute()
+        logging.debug(f"Debug: Supabase response for user role: {resp}")
+        result = resp.data if hasattr(resp, "data") and resp.data else None
+        logging.debug(f"Debug: Result from Supabase: {result}")
+        user_role = result["role"] if result and "role" in result else 'user'
+        user_profile_image = result["profile_image"] if result and "profile_image" in result else None
+        logging.debug(f"Debug: user_role value: '{user_role}' (type: {type(user_role)}) for user: {session.get('user')}")
+        if not (isinstance(user_role, str) and user_role.strip().lower() == 'admin'):
+            logging.warning(f"Debug: Access denied for user '{session.get('user')}', user_role='{user_role}' (checked as '{user_role.strip().lower() if isinstance(user_role, str) else user_role}')")
+            return redirect(url_for('dash.forbidden', user_role=user_role))
+    except Exception as e:
+        logging.error(f"Error checking user role: {e}")
+        return redirect(url_for('dash.forbidden', user_role='user'))
+
     if request.method == 'POST':
         username = request.form.get('username')
         role = request.form.get('role', 'user')
-        
         if not username:
             error_message = "Username is required"
         else:
-            conn = get_db_connection()
-            if not conn:
-                error_message = "Database connection failed"
-            else:
-                try:
-                    cursor = conn.cursor()
-                    
-                    # Check if username already exists
-                    cursor.execute("SELECT username FROM admin_users WHERE username = %s", (username,))
-                    if cursor.fetchone():
-                        error_message = "Username already exists"
-                    else:
-                        # Hash the default password
-                        default_password = "taguta"
-                        password_hash = bcrypt.generate_password_hash(default_password).decode('utf-8')
-                        
-                        # Insert new user
-                        cursor.execute(
-                            "INSERT INTO admin_users (username, password_hash, role, created_at) VALUES (%s, %s, %s, NOW())",
-                            (username, password_hash, role)
-                        )
-                        conn.commit()
+            try:
+                # Check if username already exists (do not use .single())
+                resp = supabase.table("admin_users").select("username").eq("username", username).execute()
+                logging.debug(f"Debug: Supabase response for username existence check: {resp}")
+                if hasattr(resp, "data") and resp.data:
+                    error_message = "Username already exists"
+                else:
+                    # Hash the default password
+                    default_password = "taguta"
+                    password_hash = bcrypt.generate_password_hash(default_password).decode('utf-8')
+                    user_data = {
+                        "username": username,
+                        "password_hash": password_hash,
+                        "role": role
+                    }
+                    logging.debug(f"Debug: Attempting to insert user: {user_data}")
+                    try:
+                        insert_resp = supabase.table("admin_users").insert(user_data).execute()
+                        logging.debug(f"Debug: Supabase insert response: {insert_resp}")
                         success_message = f"User '{username}' created successfully with default password 'taguta'"
-                        
-                except Exception as e:
-                    logging.error(f"Error creating user: {e}")
-                    error_message = "An error occurred while creating the user"
-                finally:
-                    cursor.close()
-                    conn.close()
-    
+                    except Exception as insert_e:
+                        logging.error(f"Error during Supabase insert: {insert_e}")
+                        error_message = f"An error occurred while creating the user: {insert_e}"
+            except Exception as e:
+                logging.error(f"Error creating user: {e}")
+                error_message = f"An error occurred while creating the user: {e}"
 
     # Fetch all users to display
-    conn = get_db_connection()
-    if conn:
-        try:
-            cursor = conn.cursor()
-            cursor.execute("SELECT username, role, created_at FROM admin_users ORDER BY created_at DESC")
-            users = [{'username': row[0], 'role': row[1], 'created_at': row[2]} for row in cursor.fetchall()]
-        except Exception as e:
-            logging.error(f"Error fetching users: {e}")
-        finally:
-            cursor.close()
-            conn.close()
+    try:
+        resp = supabase.table("admin_users").select("username, role, created_at").order("created_at", desc=True).execute()
+        users = resp.data if hasattr(resp, "data") and resp.data else []
+    except Exception as e:
+        logging.error(f"Error fetching users: {e}")
+        users = []
 
     return render_template('add_user.html', 
                          success_message=success_message, 

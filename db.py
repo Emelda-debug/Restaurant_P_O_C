@@ -1,12 +1,12 @@
+
 import logging
 import os
 import json
 from supabase import create_client, Client
+from config import SUPABASE_URL, SUPABASE_KEY
 
 
-SUPABASE_URL = "https://....supabase.co"
-SUPABASE_KEY = "..-"
-
+# Use values from config.py
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
